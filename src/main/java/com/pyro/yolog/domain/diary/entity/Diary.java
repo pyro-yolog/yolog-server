@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.diary.entity;
 
+import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,7 +16,11 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
+    private String content;
 
     @Enumerated(EnumType.STRING)
     private Mood mood;
@@ -23,5 +28,9 @@ public class Diary {
     private Weather weather;
 
     private LocalDateTime travelDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id")
+    private Trip trip;
 
 }
