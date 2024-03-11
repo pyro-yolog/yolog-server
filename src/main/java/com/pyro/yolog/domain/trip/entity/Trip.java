@@ -4,6 +4,7 @@ import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.global.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,14 @@ public class Trip extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public Trip(String name, String destination, String coverImageUrl, LocalDateTime startDate, LocalDateTime finishDate, Member member) {
+        this.name = name;
+        this.destination = destination;
+        this.coverImageUrl = coverImageUrl;
+        this.startDate = startDate;
+        this.finishDate = finishDate;
+        this.member = member;
+    }
 }
