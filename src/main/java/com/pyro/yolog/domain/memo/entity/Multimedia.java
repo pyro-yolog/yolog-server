@@ -1,6 +1,5 @@
 package com.pyro.yolog.domain.memo.entity;
 
-import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +16,7 @@ public class Multimedia {
     private String contentUrl;
 
     @Enumerated(EnumType.STRING)
-    private MemoType memoType;
+    private MultimediaType multimediaType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memo_id")
