@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("trip-diaries/{tripId}/memos")
-public class MemoController {
+public class MemoController implements MemoApi {
     private final MemoService memoService;
 
     @ResponseStatus(HttpStatus.CREATED)
