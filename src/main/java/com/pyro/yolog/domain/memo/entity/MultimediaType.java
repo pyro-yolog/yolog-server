@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemoType {
+public enum MultimediaType {
     DRAWING,
     RECORDING,
     PHOTO_VIDEO

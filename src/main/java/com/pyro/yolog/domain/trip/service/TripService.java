@@ -30,7 +30,12 @@ public class TripService {
         trip.update(request);
     }
 
+    @Transactional
     public void deleteTrip(Long id) {
         tripRepository.deleteById(id);
+    }
+
+    public Trip getTrip(final Long id) {
+        return tripRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }
