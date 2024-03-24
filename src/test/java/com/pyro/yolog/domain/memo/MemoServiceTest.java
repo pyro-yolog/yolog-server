@@ -1,4 +1,4 @@
-package com.pyro.yolog.memo;
+package com.pyro.yolog.domain.memo;
 
 import com.pyro.yolog.domain.member.query.AuthService;
 import com.pyro.yolog.domain.memo.dto.request.MemoRequest;
