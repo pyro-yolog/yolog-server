@@ -4,6 +4,7 @@ import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.global.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,12 @@ public class Memo extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trip trip;
+
+    @Builder
+    public Memo(String title, String content, Trip trip) {
+        this.title = title;
+        this.content = content;
+        this.trip = trip;
+    }
 
 }

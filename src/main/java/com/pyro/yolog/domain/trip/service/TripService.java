@@ -20,7 +20,7 @@ public class TripService {
 
     @Transactional
     public void saveTrip(final TripRequest request) {
-        Member login = authService.getMember();
+        Member login = authService.getLoginUser();
         tripRepository.save(tripMapper.toEntity(request, login));
     }
 
