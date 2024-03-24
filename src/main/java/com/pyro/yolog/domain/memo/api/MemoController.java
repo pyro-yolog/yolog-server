@@ -15,6 +15,7 @@ public class MemoController implements MemoApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
+    @Override
     public void saveMemo(@PathVariable final Long tripId,
                          @RequestBody @Valid final MemoRequest request) {
         memoService.saveMemo(tripId, request);
