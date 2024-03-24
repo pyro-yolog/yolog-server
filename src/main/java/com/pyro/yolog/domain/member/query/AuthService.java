@@ -18,11 +18,11 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
 
-    public Long getMemberId() {
-        return getMember().getId();
+    public Long getLoginUserId() {
+        return getLoginUser().getId();
     }
 
-    public Member getMember() {
+    public Member getLoginUser() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
