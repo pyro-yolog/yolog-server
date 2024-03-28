@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface MemoRepository extends JpaRepository<Memo, Long> {
-    List<Memo> findAllByTrip(Trip trip);
+    List<Memo> findAllByTripId(Long tripId);
 
 }
