@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MultimediaRepository extends JpaRepository<Multimedia, Long> {
-    List<Multimedia> findAllByMemo(Memo memo);
+    List<Multimedia> findAllByMemoId(Long memoId);
+
+    void deleteByMemo(Memo memo);
 }
