@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -78,6 +76,46 @@ public interface MemoApi {
         Long tripId
     );
 
-    
+    @Operation(
+            summary = "빠른 메모 삭제",
+            description = "빠른 메모를 삭제합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"memo"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content"
+                    )
+            }
+    )
+    void deleteMemo(@Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
+                    Long tripId,
+                    @Parameter(in = ParameterIn.PATH, description = "메모 ID", required = true)
+                    Long memoId
+    );
 
+    @Operation(
+            summary = "빠른 메모 수정",
+            description = "빠른 메모를 수정합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"memo"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content"
+                    )
+            }
+    )
+    void updateMemo(@Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
+                    Long tripId,
+
+                    @Parameter(in = ParameterIn.PATH, description = "메모 ID", required = true)
+                    Long memoId,
+
+                    @RequestBody MemoRequest memoRequest
+    );
 }
