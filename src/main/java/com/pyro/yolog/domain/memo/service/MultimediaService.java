@@ -32,4 +32,8 @@ public class MultimediaService {
     public void deleteMultimedias(Memo memo) {
         multimediaRepository.deleteByMemo(memo);
     }
+
+    public String getMultimediaUrl(Long memoId) {
+        return multimediaRepository.findFirstByMemoId(memoId).getContentUrl();
+    }
 }

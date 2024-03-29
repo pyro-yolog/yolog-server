@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -62,4 +63,11 @@ public class MemoService {
         multimediaService.saveMultimedias(memo, request.getMultimediaDtos());
     }
 
+    @Transactional(readOnly = true)
+    public List<MemoPreviewResponse> getMemosByTrip(Long tripId) {
+        return memoRepository.findAllByTripId(tripId)
+                .stream().map(memo -> memoMapper.toPreviewResponse(memo,
+                        multimediaService.getMultimediaUrl(memo.getId())))
+                .collect(Collectors.toList());
+    }
 }

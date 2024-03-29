@@ -11,5 +11,7 @@ import java.util.List;
 public interface MultimediaRepository extends JpaRepository<Multimedia, Long> {
     List<Multimedia> findAllByMemoId(Long memoId);
 
+    Multimedia findFirstByMemoId(Long memoId);
+
     void deleteByMemo(Memo memo);
 }
