@@ -35,12 +35,14 @@ public class MemoController implements MemoApi {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
+    @Override
     public List<MemoPreviewResponse> getMemos(@PathVariable final Long tripId) {
         return memoService.getMemosByTrip(tripId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{memoId}")
+    @Override
     public void deleteMemo(@PathVariable final Long tripId, @PathVariable final Long memoId) {
         memoService.deleteMemo(memoId);
     }
