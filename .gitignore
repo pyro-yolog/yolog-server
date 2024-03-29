@@ -8,6 +8,8 @@ build/
 .DS_Store
 .github/.DS_Store
 
+src/main/generated/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -38,3 +40,4 @@ out/
 
 ### VS Code ###
 .vscode/
+
