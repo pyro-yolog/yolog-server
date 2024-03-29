@@ -23,6 +23,6 @@ public interface MemoMapper {
     @Mapping(source = "multimediaDtos", target = "multimediaDtos")
     MemoDetailResponse toDetailResponse(Memo memo, List<MultimediaDto> multimediaDtos);
 
-    MemoPreviewResponse toPreviewResponse(Memo, )
-
+    @Mapping(source = "memo.id", target = "memoId")
+    MemoPreviewResponse toPreviewResponse(Memo memo, String multimediaUrl);
 }
