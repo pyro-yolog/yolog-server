@@ -1,6 +1,7 @@
 package com.pyro.yolog.domain.diary.api;
 
-import com.pyro.yolog.domain.diary.dto.DiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -9,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface DiaryApi {
     @Operation(
@@ -31,6 +31,28 @@ public interface DiaryApi {
             Long tripId,
 
             @Parameter(in = ParameterIn.PATH, description = "여행 날짜", required = true)
+            LocalDateTime date
+    );
+
+    @Operation(
+            summary = "디폴트 일기 생성",
+            description = "제목과 여행 날짜를 가진 일기를 생성합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"diary"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Created"
+                    )
+            }
+    )
+    DefaultDiaryResponse createDefaultDiary(
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
+            Long tripId,
+
+            @Parameter(in = ParameterIn.PATH, description = "일기 작성 날짜", required = true)
             LocalDateTime date
     );
 

@@ -1,4 +1,4 @@
-package com.pyro.yolog.domain.diary.dto;
+package com.pyro.yolog.domain.diary.dto.response;
 
 import com.pyro.yolog.domain.diary.entity.Mood;
 import com.pyro.yolog.domain.diary.entity.Weather;
