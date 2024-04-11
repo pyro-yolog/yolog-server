@@ -1,10 +1,12 @@
 package com.pyro.yolog.domain.diary.api;
 
+import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -54,6 +56,26 @@ public interface DiaryApi {
 
             @Parameter(in = ParameterIn.PATH, description = "일기 작성 날짜", required = true)
             LocalDateTime date
+    );
+
+    @Operation(
+            summary = "일기 수정",
+            description = "일기를 수정합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"diary"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content"
+                    )
+            }
+    )
+    void updateDiaryContent(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+                    Long tripId,
+
+                    @RequestBody DiaryContentRequest request
     );
 
 }

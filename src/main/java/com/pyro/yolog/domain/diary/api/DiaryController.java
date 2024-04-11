@@ -32,7 +32,8 @@ public class DiaryController implements DiaryApi {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void updateDiary(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
+    @Override
+    public void updateDiaryContent(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
         diaryService.updateDiaryContent(id, request);
     }
 
