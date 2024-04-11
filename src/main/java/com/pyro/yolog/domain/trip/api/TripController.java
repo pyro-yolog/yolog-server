@@ -39,7 +39,10 @@ public class TripController implements TripApi {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
+    @Override
     public List<TripResponse> getTrips() {
         return tripService.getTrips();
     }
+
+
 }
