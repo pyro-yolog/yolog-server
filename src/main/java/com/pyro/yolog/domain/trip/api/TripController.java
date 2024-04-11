@@ -1,11 +1,14 @@
 package com.pyro.yolog.domain.trip.api;
 
 import com.pyro.yolog.domain.trip.dto.TripRequest;
+import com.pyro.yolog.domain.trip.dto.TripResponse;
 import com.pyro.yolog.domain.trip.service.TripService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,5 +35,11 @@ public class TripController implements TripApi {
     @Override
     public void deleteTrip(@PathVariable Long id) {
         tripService.deleteTrip(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("")
+    public List<TripResponse> getTrips() {
+        return tripService.getTrips();
     }
 }
