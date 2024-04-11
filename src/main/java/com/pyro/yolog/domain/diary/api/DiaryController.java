@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.diary.api;
 
+import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import com.pyro.yolog.domain.diary.service.DiaryService;
@@ -27,6 +28,12 @@ public class DiaryController implements DiaryApi {
     @Override
     public DefaultDiaryResponse createDefaultDiary(@PathVariable final Long tripId, @PathVariable final LocalDateTime date) {
         return diaryService.createDefaultDiary(tripId, date);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void updateDiary(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
+        diaryService.updateDiaryContent(id, request);
     }
 
 }
