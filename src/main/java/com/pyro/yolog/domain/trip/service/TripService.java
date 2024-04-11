@@ -3,6 +3,7 @@ package com.pyro.yolog.domain.trip.service;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.query.AuthService;
 import com.pyro.yolog.domain.trip.dto.TripRequest;
+import com.pyro.yolog.domain.trip.dto.TripResponse;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.mapper.TripMapper;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
@@ -10,6 +11,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +42,11 @@ public class TripService {
 
     public Trip getTrip(final Long id) {
         return tripRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<TripResponse> getTrips() {
+        Member login = authService.getLoginUser();
+        return tripRepository.findAllByMember(login).stream()
+                .map(tripMapper::toResponse).collect(Collectors.toList());
     }
 }
