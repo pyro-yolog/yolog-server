@@ -1,6 +1,7 @@
 package com.pyro.yolog.domain.diary.api;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
@@ -49,5 +50,11 @@ public class DiaryController implements DiaryApi {
     @PutMapping("/{id}")
     public void updateWeather(@PathVariable final Long id, @RequestBody final WeatherRequest request) {
         diaryService.updateWeather(id, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void updateMood(@PathVariable final Long id, @RequestBody final MoodRequest request) {
+        diaryService.updateMood(id, request);
     }
 }

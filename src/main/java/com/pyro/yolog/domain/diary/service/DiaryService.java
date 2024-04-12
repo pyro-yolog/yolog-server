@@ -1,6 +1,7 @@
 package com.pyro.yolog.domain.diary.service;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
@@ -54,5 +55,11 @@ public class DiaryService {
         diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
                 .updateWeather(request);
 
+    }
+
+    @Transactional
+    public void updateMood(Long id, MoodRequest request) {
+        diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
+                .updateMood(request);
     }
 }
