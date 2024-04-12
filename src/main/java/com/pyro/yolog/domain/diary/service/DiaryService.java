@@ -1,6 +1,7 @@
 package com.pyro.yolog.domain.diary.service;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import com.pyro.yolog.domain.diary.entity.Diary;
@@ -43,7 +44,15 @@ public class DiaryService {
         diary.updateContent(request);
     }
 
+    @Transactional
     public void deleteDiary(Long id) {
         diaryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateWeather(Long id, WeatherRequest request) {
+        diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
+                .updateWeather(request);
+
     }
 }

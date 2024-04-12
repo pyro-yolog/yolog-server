@@ -1,6 +1,7 @@
 package com.pyro.yolog.domain.diary.entity;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -44,5 +45,9 @@ public class Diary {
 
     public void updateContent(DiaryContentRequest request) {
         this.content = request.getContent();
+    }
+
+    public void updateWeather(WeatherRequest request) {
+        this.weather = request.getWeather();
     }
 }

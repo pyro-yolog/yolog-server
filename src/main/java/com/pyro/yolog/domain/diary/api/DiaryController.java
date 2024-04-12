@@ -3,6 +3,7 @@ package com.pyro.yolog.domain.diary.api;
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
+import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,5 +43,11 @@ public class DiaryController implements DiaryApi {
     @Override
     public void deleteDiary(@PathVariable final Long id) {
         diaryService.deleteDiary(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void updateWeather(@PathVariable final Long id, @RequestBody final WeatherRequest request) {
+        diaryService.updateWeather(id, request);
     }
 }
