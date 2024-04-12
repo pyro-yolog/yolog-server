@@ -78,4 +78,22 @@ public interface DiaryApi {
                     @RequestBody DiaryContentRequest request
     );
 
+    @Operation(
+            summary = "일기 삭제",
+            description = "일기를 삭제합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"diary"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content"
+                    )
+            }
+    )
+    void deleteDiary(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+                    Long id
+    );
+
 }
