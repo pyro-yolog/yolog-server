@@ -37,4 +37,9 @@ public class DiaryController implements DiaryApi {
         diaryService.updateDiaryContent(id, request);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteDiary(@PathVariable final Long id) {
+        diaryService.deleteDiary(id);
+    }
 }

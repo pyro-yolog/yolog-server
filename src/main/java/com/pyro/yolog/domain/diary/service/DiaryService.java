@@ -42,4 +42,8 @@ public class DiaryService {
         final Diary diary = diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         diary.updateContent(request);
     }
+
+    public void deleteDiary(Long id) {
+        diaryRepository.deleteById(id);
+    }
 }
