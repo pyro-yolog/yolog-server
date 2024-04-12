@@ -1,6 +1,8 @@
 package com.pyro.yolog.domain.diary.api;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
+import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,10 +74,11 @@ public interface DiaryApi {
                     )
             }
     )
-    void updateDiaryContent(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
-                    Long tripId,
+    void updateDiaryContent(
+            @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+            Long id,
 
-                    @RequestBody DiaryContentRequest request
+            @RequestBody DiaryContentRequest request
     );
 
     @Operation(
@@ -96,4 +99,43 @@ public interface DiaryApi {
                     Long id
     );
 
+    @Operation(
+            summary = "일기 날씨 수정",
+            description = "일기의 날씨 정보를 수정합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"diary"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content"
+                    )
+            }
+    )
+    void updateWeather(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+                            Long id,
+
+                            @RequestBody WeatherRequest request
+    );
+
+    @Operation(
+            summary = "일기 기분 수정",
+            description = "일기의 기분 정보를 수정합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"diary"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content"
+                    )
+            }
+    )
+    void updateMood(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+                       Long id,
+
+                       @RequestBody MoodRequest request
+    );
 }

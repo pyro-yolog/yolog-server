@@ -48,12 +48,14 @@ public class DiaryController implements DiaryApi {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
+    @Override
     public void updateWeather(@PathVariable final Long id, @RequestBody final WeatherRequest request) {
         diaryService.updateWeather(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
+    @Override
     public void updateMood(@PathVariable final Long id, @RequestBody final MoodRequest request) {
         diaryService.updateMood(id, request);
     }
