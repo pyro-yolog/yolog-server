@@ -8,6 +8,7 @@ import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import com.pyro.yolog.domain.diary.entity.Diary;
 import com.pyro.yolog.domain.diary.mapper.DiaryMapper;
 import com.pyro.yolog.domain.diary.repository.DiaryRepository;
+import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.service.TripService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -61,5 +62,15 @@ public class DiaryService {
     public void updateMood(Long id, MoodRequest request) {
         diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
                 .updateMood(request);
+    }
+
+
+    @Transactional
+    public void deleteOutOfDuration(Trip trip) {
+        diaryRepository.findById(trip.getId()).ifPresent(diary -> {
+            if (diary.getTravelDate().isBefore(trip.getStartDate()) || diary.getTravelDate().isAfter(trip.getFinishDate())) {
+                diaryRepository.deleteById(diary.getId());
+            }
+        });
     }
 }
