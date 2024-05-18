@@ -1,0 +1,62 @@
+package com.pyro.yolog.domain.diary.api;
+
+import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
+import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
+import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
+import com.pyro.yolog.domain.diary.service.DiaryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("trip-diaries")
+public class DiaryController implements DiaryApi {
+    private final DiaryService diaryService;
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{tripId}/{date}")
+    @Override
+    public DiaryResponse getDiary(@PathVariable final Long tripId, @PathVariable final LocalDateTime date) {
+        return diaryService.getDiary(tripId, date);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{tripId}")
+    @Override
+    public DefaultDiaryResponse createDefaultDiary(@PathVariable final Long tripId, @PathVariable final LocalDateTime date) {
+        return diaryService.createDefaultDiary(tripId, date);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    @Override
+    public void updateDiaryContent(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
+        diaryService.updateDiaryContent(id, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    @Override
+    public void deleteDiary(@PathVariable final Long id) {
+        diaryService.deleteDiary(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    @Override
+    public void updateWeather(@PathVariable final Long id, @RequestBody final WeatherRequest request) {
+        diaryService.updateWeather(id, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    @Override
+    public void updateMood(@PathVariable final Long id, @RequestBody final MoodRequest request) {
+        diaryService.updateMood(id, request);
+    }
+}

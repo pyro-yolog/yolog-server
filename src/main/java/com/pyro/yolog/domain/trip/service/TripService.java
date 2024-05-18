@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.trip.service;
 
+import com.pyro.yolog.domain.diary.service.DiaryService;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.query.AuthService;
 import com.pyro.yolog.domain.trip.dto.TripRequest;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class TripService {
     private final TripRepository tripRepository;
     private final AuthService authService;
+    private final DiaryService diaryService;
     private final TripMapper tripMapper;
 
     @Transactional
@@ -33,6 +35,7 @@ public class TripService {
     public void updateTrip(final Long id, final TripRequest request) {
         final Trip trip = tripRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         trip.update(request);
+        diaryService.deleteOutOfDuration(trip);
     }
 
     @Transactional
