@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("trip-diaries")
+@RequestMapping("diaries")
 public class DiaryController implements DiaryApi {
     private final DiaryService diaryService;
 
@@ -33,7 +33,7 @@ public class DiaryController implements DiaryApi {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/content")
     @Override
     public void updateDiaryContent(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
         diaryService.updateDiaryContent(id, request);
@@ -47,14 +47,14 @@ public class DiaryController implements DiaryApi {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/weather")
     @Override
     public void updateWeather(@PathVariable final Long id, @RequestBody final WeatherRequest request) {
         diaryService.updateWeather(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/mood")
     @Override
     public void updateMood(@PathVariable final Long id, @RequestBody final MoodRequest request) {
         diaryService.updateMood(id, request);
