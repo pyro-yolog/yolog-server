@@ -9,6 +9,7 @@ import com.pyro.yolog.domain.diary.entity.Diary;
 import com.pyro.yolog.domain.diary.mapper.DiaryMapper;
 import com.pyro.yolog.domain.diary.repository.DiaryRepository;
 import com.pyro.yolog.domain.trip.entity.Trip;
+import com.pyro.yolog.domain.trip.repository.TripRepository;
 import com.pyro.yolog.domain.trip.service.TripService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +25,22 @@ import java.time.temporal.ChronoUnit;
 @RequiredArgsConstructor
 public class DiaryService {
     private static final String DAY = "Day";
-    private final TripService tripService;
     private final DiaryRepository diaryRepository;
+    private final TripRepository tripRepository;
     private final DiaryMapper diaryMapper;
 
     public DiaryResponse getDiary(Long tripId, LocalDateTime date) {
-        return diaryMapper.toResponse(diaryRepository.findByTripAndTravelDate(tripId, date)
+        return diaryMapper.toResponse(diaryRepository.findByTripIdAndTravelDate(tripId, date)
                 .orElseThrow(EntityNotFoundException::new));
     }
 
     @Transactional
     public DefaultDiaryResponse createDefaultDiary(final Long tripId, final LocalDateTime date) {
-        final LocalDateTime startDate = tripService.getTrip(tripId).getStartDate();
+        final LocalDateTime startDate = tripRepository.findById(tripId)
+                .orElseThrow(EntityNotFoundException::new).getStartDate();
         final String title = DAY + ChronoUnit.DAYS.between(startDate, date);
-        return diaryMapper.toDefaultFormatResponse(diaryRepository.save(diaryMapper.toEntity(title, startDate)));
+        return diaryMapper.toDefaultFormatResponse(
+                diaryRepository.save(diaryMapper.toEntity(title, startDate)));
     }
 
     @Transactional
