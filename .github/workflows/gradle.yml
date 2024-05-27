@@ -1,10 +1,5 @@
 name: Yolog Backend CI/CD
 
-defaults:
-  run:
-    shell: bash
-    working-directory: ./
-
 # dev 브랜치에 코드가 push 되거나 pull_request 되었을 때 이 파일의 내용이 실행됨
 on:
   push:
@@ -85,7 +80,7 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
-            sudo docker-compose -f docker-compose.yml up --build -d
+            sudo docker-compose -f ../docker-compose.yml up --build -d
             docker image prune -f
             
       - name: Remove Github Actions IP from security group
