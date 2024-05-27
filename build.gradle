@@ -48,6 +48,10 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+tasks.named('bootBuildImage') {
+	builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
 ext {
     snippetsDir = file('build/generated-snippets')
 }
