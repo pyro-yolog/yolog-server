@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("trip-diaries")
+@RequestMapping("trips")
 public class TripController implements TripApi {
     private final TripService tripService;
 

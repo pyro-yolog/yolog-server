@@ -78,7 +78,7 @@ public interface DiaryApi {
             @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
             Long id,
 
-            @RequestBody DiaryContentRequest request
+            @RequestBody(required = true) DiaryContentRequest request
     );
 
     @Operation(
@@ -113,10 +113,11 @@ public interface DiaryApi {
                     )
             }
     )
-    void updateWeather(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
-                            Long id,
+    void updateWeather(
+            @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+            Long id,
 
-                            @RequestBody WeatherRequest request
+            @RequestBody(required = true) WeatherRequest request
     );
 
     @Operation(
@@ -136,6 +137,6 @@ public interface DiaryApi {
     void updateMood(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
                        Long id,
 
-                       @RequestBody MoodRequest request
+                       @RequestBody(required = true) MoodRequest request
     );
 }

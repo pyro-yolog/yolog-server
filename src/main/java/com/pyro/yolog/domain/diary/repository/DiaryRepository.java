@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
-    Optional<Diary> findByTripAndTravelDate(Long tripId, LocalDateTime date);
+    Optional<Diary> findByTripIdAndTravelDate(Long tripId, LocalDateTime date);
 
     List<Diary> findByTripId(Long tripId);
 }
