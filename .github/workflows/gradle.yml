@@ -50,6 +50,7 @@ jobs:
 
       # dockerfile을 통해 이미지를 빌드하고, 이를 docker repo로 push
       - name: Docker build & push CORE to docker repo
+        working-directory: ./
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} .
