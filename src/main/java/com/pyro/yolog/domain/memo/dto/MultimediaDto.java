@@ -1,4 +1,4 @@
-package com.pyro.yolog.domain.memo.dto.request;
+package com.pyro.yolog.domain.memo.dto;
 
 import com.pyro.yolog.domain.memo.entity.MultimediaType;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MultimediaRequest {
+public class MultimediaDto {
     String contentUrl;
     MultimediaType multimediaType;
 }

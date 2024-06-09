@@ -1,0 +1,4 @@
+[submodule "src/main/resources/yolog-core-config"]
+	path = src/main/resources/yolog-core-config
+	url = https://github.com/yeonjy/yolog-core-config.git
+	branch = main
