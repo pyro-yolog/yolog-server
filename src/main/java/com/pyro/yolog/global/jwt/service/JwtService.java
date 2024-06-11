@@ -114,6 +114,10 @@ public class JwtService {
             return false;
         }
     }
+
+    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
+        response.setHeader(refreshHeader, BEARER + refreshToken);
+    }
 }
 
 
