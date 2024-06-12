@@ -3,6 +3,7 @@ package com.pyro.yolog.global.jwt.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
+import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class JwtService {
     private static final String BEARER = "Bearer ";
 
     private final MemberRepository memberRepository;
+    private final RefreshTokenService refreshTokenService;
 
     public String createAccessToken(String email) {
         Date now = new Date();
@@ -96,14 +98,12 @@ public class JwtService {
         }
     }
 
+
     @Transactional
     public void updateRefreshToken(String email, String refreshToken) {
-        memberRepository.findByEmail(email)
-                .ifPresentOrElse(
-                        member -> member.updateRefreshToken(refreshToken),
-                        () -> new Exception("일치하는 회원이 없습니다.")
-                );
+        refreshTokenService.updateToken(email, refreshToken);
     }
+
 
     public boolean isTokenValid(String token) {
         try {
@@ -113,6 +113,10 @@ public class JwtService {
             log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
             return false;
         }
+    }
+
+    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
+        response.setHeader(refreshHeader, BEARER + refreshToken);
     }
 }
 

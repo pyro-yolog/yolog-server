@@ -1,6 +1,5 @@
 package com.pyro.yolog.domain.trip.api;
 
-import com.pyro.yolog.domain.memo.dto.response.MemoPreviewResponse;
 import com.pyro.yolog.domain.trip.dto.TripRequest;
 import com.pyro.yolog.domain.trip.dto.TripResponse;
 import io.swagger.v3.oas.annotations.Operation;
