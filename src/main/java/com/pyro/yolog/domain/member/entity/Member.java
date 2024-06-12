@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.member.entity;
 
+import com.pyro.yolog.domain.member.dto.SignUpRequest;
 import com.pyro.yolog.global.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,8 +21,6 @@ public class Member extends BaseTimeEntity {
     private String password;
     private String imageUrl;
 
-    private String refreshToken;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -31,8 +30,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
+    public void signUp(SignUpRequest dto) {
+        this.nickname = dto.getNickname();
+        this.role = Role.USER;
     }
-
 }
