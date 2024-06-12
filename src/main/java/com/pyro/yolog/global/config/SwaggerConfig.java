@@ -28,7 +28,7 @@ public class SwaggerConfig {
 
     private List<Server> getServers() {
         return List.of(new Server()
-                .url("/api")
+                .url("/")
                 .description("백엔드 api 서버")
         );
     }
