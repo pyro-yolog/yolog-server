@@ -1,4 +1,4 @@
-package com.pyro.yolog.global.login.filter;
+package com.pyro.yolog.global.oauth2.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
