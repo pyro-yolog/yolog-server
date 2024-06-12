@@ -21,8 +21,6 @@ public class Member extends BaseTimeEntity {
     private String password;
     private String imageUrl;
 
-    private String refreshToken;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -33,10 +31,7 @@ public class Member extends BaseTimeEntity {
     private Status status;
 
     public void signUp(SignUpRequest dto) {
-        this.nickname = nickname;
-    }
-
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
+        this.nickname = dto.getNickname();
+        this.role = Role.USER;
     }
 }
