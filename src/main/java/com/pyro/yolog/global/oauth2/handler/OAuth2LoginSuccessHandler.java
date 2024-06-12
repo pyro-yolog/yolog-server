@@ -38,7 +38,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
-        log.info("Role == User => refresh token 생성합니다.");
+        log.info("회원가입에 성공하였습니다. refresh token 을 생성합니다.");
 
         String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
         String refreshToken = jwtService.createRefreshToken();
