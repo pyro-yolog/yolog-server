@@ -14,7 +14,6 @@ public class MemberFixture {
                 .email("paper@daum.net")
                 .password("12345678")
                 .imageUrl("http://onesideusedpaper")
-                .refreshToken("HiruByeru")
                 .role(Role.USER)
                 .socialType(SocialType.KAKAO)
                 .status(Status.ACTIVE)
