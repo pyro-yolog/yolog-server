@@ -6,6 +6,7 @@ import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.query.AuthService;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
 import com.pyro.yolog.global.jwt.filter.JwtAuthenticationProcessingFilter;
+import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
 import com.pyro.yolog.global.jwt.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public abstract class BaseControllerTest {
     protected MemberRepository memberRepository;
     @SpyBean
     protected ObjectMapper objectMapper;
+    @MockBean
+    protected RefreshTokenService refreshTokenService;
 
     protected String toRequestBody(Object value) throws JsonProcessingException {
         return objectMapper.writeValueAsString(value);
@@ -43,7 +46,7 @@ public abstract class BaseControllerTest {
     @BeforeEach
     public void loginSetup(WebApplicationContext ctx) {
         mockMvc = MockMvcBuilders.webAppContextSetup(ctx)
-                .addFilter(new JwtAuthenticationProcessingFilter(jwtService, memberRepository))
+                .addFilter(new JwtAuthenticationProcessingFilter(jwtService, refreshTokenService, memberRepository))
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build();
         loginMember = MEMBER();
