@@ -31,7 +31,7 @@ public class Trip extends BaseTimeEntity {
     @NotNull
     private LocalDateTime finishDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
