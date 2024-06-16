@@ -42,6 +42,7 @@ class TripServiceTest extends LoginTest {
     }
 
 
+
     @Test
     @DisplayName("Trip을 생성할 수 있는가")
     void createTrip() {
@@ -60,4 +61,25 @@ class TripServiceTest extends LoginTest {
         //then
         assertThat(trips.get(0).getName()).isEqualTo(trip.getName());
     }
+
+    @Test
+    @DisplayName("Trip을 수정할 수 있는가")
+    void updateTrip() {
+        //given
+        String updatedName = "수정된 Trip Name";
+        Long id = tripRepository.save(trip).getId();
+        TripRequest request = TripRequest.builder()
+                .name(updatedName)
+                .destination(trip.getDestination())
+                .coverImageUrl(trip.getCoverImageUrl())
+                .startDate(trip.getStartDate())
+                .finishDate(trip.getFinishDate()).build();
+
+        //when
+        tripService.updateTrip(id, request);
+
+        //then
+        assertThat(tripRepository.findById(id).get().getName()).isEqualTo(updatedName);
+    }
+
 }
