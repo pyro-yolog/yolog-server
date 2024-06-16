@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.global;
 
+import com.pyro.yolog.global.config.JpaAuditingConfig;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -12,7 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @DataJpaTest
-//@Import({JpaAuditingConfig.class})
+@Import({JpaAuditingConfig.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public @interface RepositoryTest {
 }
