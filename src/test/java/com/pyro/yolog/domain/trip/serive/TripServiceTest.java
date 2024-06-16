@@ -42,7 +42,6 @@ class TripServiceTest extends LoginTest {
     }
 
 
-
     @Test
     @DisplayName("Trip을 생성할 수 있는가")
     void createTrip() {
@@ -82,4 +81,16 @@ class TripServiceTest extends LoginTest {
         assertThat(tripRepository.findById(id).get().getName()).isEqualTo(updatedName);
     }
 
+    @Test
+    @DisplayName("Trip을 삭제할 수 있는가")
+    void deleteTrip() {
+        //given
+        Long id = tripRepository.save(trip).getId();
+
+        //when
+        tripService.deleteTrip(id);
+
+        //then
+        assertThat(tripRepository.findById(id).isPresent()).isFalse();
+    }
 }
