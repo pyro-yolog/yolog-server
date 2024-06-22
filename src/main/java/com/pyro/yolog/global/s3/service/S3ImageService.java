@@ -10,6 +10,7 @@ import com.pyro.yolog.global.s3.exception.FileDeleteFailureException;
 import com.pyro.yolog.global.s3.exception.FileUploadFailureException;
 import com.pyro.yolog.global.s3.exception.InvalidFileExtensionException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class S3ImageService {
+    private static final String IMAGE_DIRECTORY = "/image";
 
     @Value("${cloud.aws.s3.bucket-name}")
     private String BUCKET_NAME;
@@ -62,12 +64,12 @@ public class S3ImageService {
         String s3FileName = UUID.randomUUID().toString().substring(0, 10)
                 + file.getOriginalFilename();
         try {
-            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME + "/image", s3FileName, file.getInputStream(), metadata).withCannedAcl(CannedAccessControlList.PublicRead);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME + IMAGE_DIRECTORY, s3FileName, file.getInputStream(), metadata).withCannedAcl(CannedAccessControlList.PublicRead);
             amazonS3.putObject(putObjectRequest);
         } catch (IOException e) {
             throw new FileUploadFailureException();
         }
-        return amazonS3.getUrl(BUCKET_NAME, s3FileName).toString();
+        return amazonS3.getUrl(BUCKET_NAME + IMAGE_DIRECTORY, s3FileName).toString();
     }
 
     public void deleteImage(S3ImageDto dto) {
