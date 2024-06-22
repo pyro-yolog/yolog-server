@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.pyro.yolog.global.s3.dto.response.S3ImageResponse;
+import com.pyro.yolog.global.s3.dto.S3ImageDto;
 import com.pyro.yolog.global.s3.exception.FileDeleteFailureException;
 import com.pyro.yolog.global.s3.exception.FileUploadFailureException;
 import com.pyro.yolog.global.s3.exception.InvalidFileExtensionException;
@@ -32,9 +32,9 @@ public class S3ImageService {
 
     private final AmazonS3 amazonS3;
 
-    public S3ImageResponse uploadImage(MultipartFile file) {
+    public S3ImageDto uploadImage(MultipartFile file) {
         validateImageExtension(file.getOriginalFilename());
-        return new S3ImageResponse(uploadImageToS3(file));
+        return new S3ImageDto(uploadImageToS3(file));
     }
 
     private void validateImageExtension(String fileName) {
@@ -70,8 +70,8 @@ public class S3ImageService {
         return amazonS3.getUrl(BUCKET_NAME, s3FileName).toString();
     }
 
-    public void delete(String imageAddress) {
-        String key = getKeyFromImageAddress(imageAddress);
+    public void deleteImage(S3ImageDto dto) {
+        String key = getKeyFromImageAddress(dto.getImageUrl());
         amazonS3.deleteObject(new DeleteObjectRequest(BUCKET_NAME, key));
     }
 

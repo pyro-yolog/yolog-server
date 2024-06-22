@@ -1,4 +1,4 @@
-package com.pyro.yolog.global.s3.dto.response;
+package com.pyro.yolog.global.s3.dto;
 
 import lombok.*;
 
@@ -6,6 +6,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class S3ImageResponse {
+public class S3ImageDto {
     String imageUrl;
 }

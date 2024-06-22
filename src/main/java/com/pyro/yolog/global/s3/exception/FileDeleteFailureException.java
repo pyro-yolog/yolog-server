@@ -5,7 +5,7 @@ import com.pyro.yolog.global.error.exception.ExternalApiException;
 
 public class FileDeleteFailureException extends ExternalApiException {
 
-    public FileUploadFailureException() {
+    public FileDeleteFailureException() {
         super(ErrorCode.FILE_DELETE_FAILURE_ERROR);
     }
 }

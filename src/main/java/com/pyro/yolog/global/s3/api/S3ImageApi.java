@@ -1,6 +1,6 @@
 package com.pyro.yolog.global.s3.api;
 
-import com.pyro.yolog.global.s3.dto.response.S3ImageResponse;
+import com.pyro.yolog.global.s3.dto.S3ImageDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,5 +20,19 @@ public interface S3ImageApi {
                     description = "Created"
             )
     })
-    S3ImageResponse uploadImage(MultipartFile image);
+    S3ImageDto uploadImage(MultipartFile image);
+
+    @Operation(
+            summary = "이미지 삭제",
+            description = "S3에서 이미지를 삭제합니다.",
+            security = {@SecurityRequirement(name = "access_token")},
+            tags = {"IMAGE"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No Content"
+            )
+    })
+    void deleteImage(S3ImageDto dto);
 }
