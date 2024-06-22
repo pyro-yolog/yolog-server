@@ -1,8 +1,12 @@
 package com.pyro.yolog.global.s3.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.pyro.yolog.global.s3.dto.response.S3ImageResponse;
+import com.pyro.yolog.global.s3.exception.FileDeleteFailureException;
 import com.pyro.yolog.global.s3.exception.FileUploadFailureException;
 import com.pyro.yolog.global.s3.exception.InvalidFileExtensionException;
 import lombok.RequiredArgsConstructor;
@@ -28,18 +32,9 @@ public class S3ImageService {
 
     private final AmazonS3 amazonS3;
 
-    public void uploadCover(MultipartFile file, String fileName) {
-        validateImageExtension(fileName);
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(file.getContentType());
-        metadata.setContentLength(file.getSize());
-        String s3FileName = UUID.randomUUID().toString().substring(0, 10) + fileName;
-
-        try {
-            amazonS3.putObject(BUCKET_NAME + "/trip", s3FileName, file.getInputStream(), metadata);
-        } catch (IOException e) {
-            throw new FileUploadFailureException();
-        }
+    public S3ImageResponse uploadImage(MultipartFile file) {
+        validateImageExtension(file.getOriginalFilename());
+        return new S3ImageResponse(uploadImageToS3(file));
     }
 
     private void validateImageExtension(String fileName) {
@@ -60,6 +55,21 @@ public class S3ImageService {
         return lastDotIndex;
     }
 
+    private String uploadImageToS3(MultipartFile file) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getSize());
+        String s3FileName = UUID.randomUUID().toString().substring(0, 10)
+                + file.getOriginalFilename();
+        try {
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME + "/image", s3FileName, file.getInputStream(), metadata).withCannedAcl(CannedAccessControlList.PublicRead);
+            amazonS3.putObject(putObjectRequest);
+        } catch (IOException e) {
+            throw new FileUploadFailureException();
+        }
+        return amazonS3.getUrl(BUCKET_NAME, s3FileName).toString();
+    }
+
     public void delete(String imageAddress) {
         String key = getKeyFromImageAddress(imageAddress);
         amazonS3.deleteObject(new DeleteObjectRequest(BUCKET_NAME, key));
@@ -71,7 +81,7 @@ public class S3ImageService {
             String decodingKey = URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8);
             return decodingKey.substring(1); // 맨 앞의 '/' 제거
         }catch (MalformedURLException e){
-            throw new FileUploadFailureException();
+            throw new FileDeleteFailureException();
         }
     }
 }
