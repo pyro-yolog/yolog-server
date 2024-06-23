@@ -1,9 +1,7 @@
-package com.pyro.yolog.domain.trip.controller;
+package com.pyro.yolog.domain.trip.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pyro.yolog.domain.global.BaseControllerTest;
 import com.pyro.yolog.domain.trip.TripFixture;
-import com.pyro.yolog.domain.trip.api.TripController;
 import com.pyro.yolog.domain.trip.dto.TripRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
@@ -12,13 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
