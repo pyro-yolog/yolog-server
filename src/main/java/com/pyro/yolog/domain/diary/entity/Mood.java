@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Mood {
-    GOOD,
-    ANGRY,
-    DEPRESSED,
-    TIRED,
-    NOT_BAD
+    HAPPY("행복한"),
+    NORMAL("평범한"),
+    TIRED("피곤한"),
+    UPSET("속상한"),
+    ANGRY("화나는");
 
-
+    private final String name;
 }

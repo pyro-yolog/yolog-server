@@ -1,6 +1,5 @@
 package com.pyro.yolog.domain.diary.dto.request;
 
-import com.pyro.yolog.domain.diary.entity.Mood;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class MoodRequest {
-    private Mood mood;
+    private String mood;
 }
