@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class SignController {
     private final SignUpService signUpService;
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/oauth2/sign-up")
-    public void signUp(@RequestBody SignUpRequest request) {
-        signUpService.signUp(request);
+    public boolean signUp(@RequestBody SignUpRequest request) {
+        return signUpService.signUp(request);
     }
 }

@@ -32,6 +32,6 @@ public class Member extends BaseTimeEntity {
 
     public void signUp(SignUpRequest dto) {
         this.nickname = dto.getNickname();
-        this.role = Role.USER;
+        this.role = Role.GUEST;
     }
 }
