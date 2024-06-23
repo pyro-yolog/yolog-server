@@ -1,7 +1,6 @@
 package com.pyro.yolog.domain.inquiry.api;
 
 import com.pyro.yolog.domain.inquiry.dto.request.InquiryRequest;
-import com.pyro.yolog.domain.member.dto.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
