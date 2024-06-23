@@ -4,7 +4,6 @@ import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.entity.Role;
 import com.pyro.yolog.domain.member.entity.SocialType;
 import com.pyro.yolog.domain.member.entity.Status;
-import lombok.RequiredArgsConstructor;
 
 public class MemberFixture {
     public final static Member MEMBER() {
