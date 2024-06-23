@@ -35,9 +35,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .formLogin(AbstractHttpConfigurer::disable)  //FormLogin 사용 X
-                .httpBasic(AbstractHttpConfigurer::disable)  //httpBasic 사용 X
-                .csrf(AbstractHttpConfigurer::disable)  //csrf 보안 사용 X
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable).disable())
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
