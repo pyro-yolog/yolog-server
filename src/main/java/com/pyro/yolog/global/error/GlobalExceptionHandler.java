@@ -2,7 +2,9 @@ package com.pyro.yolog.global.error;
 
 import com.pyro.yolog.global.error.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,5 +21,13 @@ public class GlobalExceptionHandler {
                 .status(errorCode.getStatus())
                 .body(new ErrorResponse(errorCode.getStatus(),
                         errorCode.getErrorMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
+        log.warn(e.getMessage());
+        return ResponseEntity
+                .status(e.getStatusCode())
+                .body(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 }

@@ -48,11 +48,11 @@ public class Diary {
         this.content = request.getContent();
     }
 
-    public void updateWeather(WeatherRequest request) {
-        this.weather = request.getWeather();
+    public void updateWeather(Weather weather) {
+        this.weather = weather;
     }
 
-    public void updateMood(MoodRequest request) {
-        this.mood = request.getMood();
+    public void updateMood(Mood mood) {
+        this.mood = mood;
     }
 }

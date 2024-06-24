@@ -6,12 +6,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Weather {
-    SUNNY,
-    PARTLY_CLOUDY,
-    CLOUDY,
-    RAIN,
-    SNOW,
-    WINDS,
-    THUNDER_LIGHTENING
+    SUNNY("맑음"),
+    CLOUDY("흐림"),
+    RAIN("비"),
+    SNOW("눈"),
+    WINDS("바람");
 
+    private final String name;
 }

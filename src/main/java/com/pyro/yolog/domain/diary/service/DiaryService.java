@@ -6,11 +6,12 @@ import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
 import com.pyro.yolog.domain.diary.entity.Diary;
+import com.pyro.yolog.domain.diary.entity.Mood;
+import com.pyro.yolog.domain.diary.entity.Weather;
 import com.pyro.yolog.domain.diary.mapper.DiaryMapper;
 import com.pyro.yolog.domain.diary.repository.DiaryRepository;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
-import com.pyro.yolog.domain.trip.service.TripService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,14 +58,13 @@ public class DiaryService {
     @Transactional
     public void updateWeather(Long id, WeatherRequest request) {
         diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
-                .updateWeather(request);
-
+                .updateWeather(Weather.valueOf(request.getWeather()));
     }
 
     @Transactional
     public void updateMood(Long id, MoodRequest request) {
         diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
-                .updateMood(request);
+                .updateMood(Mood.valueOf(request.getMood()));
     }
 
 
