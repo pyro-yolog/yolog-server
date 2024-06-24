@@ -49,8 +49,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
             return;
         }
-
-        log.info("refresh token is null");
         checkAccessTokenAndAuthentication(request, response, filterChain);
     }
 
