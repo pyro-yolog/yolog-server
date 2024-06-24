@@ -6,7 +6,7 @@ import com.pyro.yolog.domain.inquiry.entity.Inquiry;
 import com.pyro.yolog.domain.inquiry.mapper.InquiryMapper;
 import com.pyro.yolog.domain.inquiry.repository.InquiryRepository;
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.member.query.AuthService;
+import com.pyro.yolog.domain.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

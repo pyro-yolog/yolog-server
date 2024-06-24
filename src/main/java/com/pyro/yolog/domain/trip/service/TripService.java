@@ -2,7 +2,7 @@ package com.pyro.yolog.domain.trip.service;
 
 import com.pyro.yolog.domain.diary.service.DiaryService;
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.member.query.AuthService;
+import com.pyro.yolog.domain.auth.service.AuthService;
 import com.pyro.yolog.domain.trip.dto.TripRequest;
 import com.pyro.yolog.domain.trip.dto.TripResponse;
 import com.pyro.yolog.domain.trip.entity.Trip;
@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
