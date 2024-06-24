@@ -4,10 +4,12 @@ import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.entity.Role;
 import com.pyro.yolog.domain.member.entity.SocialType;
 import com.pyro.yolog.domain.member.entity.Status;
+import com.pyro.yolog.global.oauth2.userInfo.GoogleOAuth2UserInfo;
 import com.pyro.yolog.global.oauth2.userInfo.KakaoOAuth2UserInfo;
 import com.pyro.yolog.global.oauth2.userInfo.OAuth2UserInfo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -24,13 +26,23 @@ public class OAuthAttributes {
 
     public static OAuthAttributes of(SocialType socialType,
                                      String userNameAttributeName, Map<String, Object> attributes) {
-        return ofKakao(userNameAttributeName, attributes);
+        if (socialType == SocialType.KAKAO) {
+            return ofKakao(userNameAttributeName, attributes);
+        }
+        return ofGoogle(userNameAttributeName, attributes);
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .nameAttributeKey(userNameAttributeName)
                 .oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
+                .build();
+    }
+
+    public static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .nameAttributeKey(userNameAttributeName)
+                .oauth2UserInfo(new GoogleOAuth2UserInfo(attributes))
                 .build();
     }
 
