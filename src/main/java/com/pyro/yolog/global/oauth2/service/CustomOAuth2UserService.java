@@ -24,10 +24,10 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final MemberRepository memberRepository;
 
+    private static final String KAKAO = "kakao";
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("CustomOAuth2UserService.loadUser() 실행 - OAuth2 로그인 요청 진입");
-
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -42,7 +42,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         Member createdMember = getMember(extractAttributes, socialType);
 
-        // DefaultOAuth2User를 구현한 CustomOAuth2User 객체를 생성해서 반환
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(createdMember.getRole().getString())),
                 attributes,
@@ -53,7 +52,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private SocialType getSocialType(String registrationId) {
-        return SocialType.KAKAO;
+        if (registrationId.equals(KAKAO)) {
+            return SocialType.KAKAO;
+        }
+        return SocialType.GOOGLE;
     }
 
     private Member getMember(OAuthAttributes attributes, SocialType socialType) {
