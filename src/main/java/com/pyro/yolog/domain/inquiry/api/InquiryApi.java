@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "문의하기")
+@Tag(name = "Inquiry")
 public interface InquiryApi {
     @Operation(
             summary = "문의하기 등록",
