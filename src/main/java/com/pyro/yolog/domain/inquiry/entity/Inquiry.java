@@ -19,6 +19,7 @@ public class Inquiry extends BaseTimeEntity {
 
     private String title;
     private String content;
+    private String answer;
 
     @Column(nullable = false)
     @ColumnDefault("false")
@@ -29,7 +30,8 @@ public class Inquiry extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public Inquiry(String content, Member member) {
+    public Inquiry(String title, String content, Member member) {
+        this.title = title;
         this.content = content;
         this.member = member;
     }

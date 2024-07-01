@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.inquiry.mapper;
 
+import com.pyro.yolog.domain.inquiry.dto.response.DetailInquiryResponse;
 import com.pyro.yolog.domain.inquiry.dto.response.InquiryPreview;
 import com.pyro.yolog.domain.inquiry.entity.Inquiry;
 import com.pyro.yolog.domain.member.entity.Member;
@@ -10,5 +11,7 @@ import org.mapstruct.MappingConstants;
 public interface InquiryMapper {
     Inquiry toEntity(Member member, String title, String content);
 
-    InquiryPreview toResponse(Inquiry inquiry);
+    InquiryPreview toPreviewResponse(Inquiry inquiry);
+
+    DetailInquiryResponse toDetailResponse(Inquiry inquiry);
 }
