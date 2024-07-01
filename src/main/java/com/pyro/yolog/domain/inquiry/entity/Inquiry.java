@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Entity
@@ -16,15 +17,27 @@ public class Inquiry extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
     private String content;
+    private String answer;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private Boolean isAnswered;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Inquiry(String content, Member member) {
+    public Inquiry(String title, String content, Member member) {
+        this.title = title;
         this.content = content;
         this.member = member;
+    }
+
+    public void updateAnswer(String answer) {
+        this.answer = answer;
+        this.isAnswered = true;
     }
 }

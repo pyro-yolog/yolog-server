@@ -1,15 +1,24 @@
 package com.pyro.yolog.domain.inquiry.service;
 
 import com.pyro.yolog.domain.inquiry.dto.CreateInquiryImageDto;
+import com.pyro.yolog.domain.inquiry.dto.request.InquiryAnswerRequest;
 import com.pyro.yolog.domain.inquiry.dto.request.InquiryRequest;
+import com.pyro.yolog.domain.inquiry.dto.response.DetailInquiryResponse;
+import com.pyro.yolog.domain.inquiry.dto.response.InquiryPreview;
 import com.pyro.yolog.domain.inquiry.entity.Inquiry;
+import com.pyro.yolog.domain.inquiry.exception.InquiryAnswerNotAdminMemberException;
+import com.pyro.yolog.domain.inquiry.exception.InquiryNotFoundException;
 import com.pyro.yolog.domain.inquiry.mapper.InquiryMapper;
 import com.pyro.yolog.domain.inquiry.repository.InquiryRepository;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.domain.member.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,8 +33,35 @@ public class InquiryService {
     public void createInquiry(InquiryRequest request) {
         Member member = authService.getLoginUser();
         Inquiry inquiry = inquiryRepository.save(inquiryMapper
-                .toEntity(member, request.getContent()));
+                .toEntity(member, request.getTitle(), request.getContent()));
         inquiryImageService.saveImages(
                 new CreateInquiryImageDto(inquiry, request.getImageUrls()));
+    }
+
+    @Transactional(readOnly = true)
+    public List<InquiryPreview> getAllInquiries() {
+        Member member = authService.getLoginUser();
+        return inquiryRepository.findAllByMember(member).stream()
+                .map(inquiryMapper::toPreviewResponse).collect(Collectors.toList());
+    }
+
+    public DetailInquiryResponse getDetailInquiry(Long id) {
+        Inquiry inquiry = inquiryRepository.findById(id).orElseThrow(InquiryNotFoundException::new);
+        return inquiryMapper.toDetailResponse(inquiry);
+    }
+
+    @Transactional
+    public void updateAnswer(Long id, InquiryAnswerRequest request) {
+        Member member = authService.getLoginUser();
+        if (!member.getRole().equals(Role.ADMIN)) {
+            throw new InquiryAnswerNotAdminMemberException();
+        }
+        Inquiry inquiry = inquiryRepository.findById(id).orElseThrow(InquiryNotFoundException::new);
+        inquiry.updateAnswer(request.getAnswer());
+    }
+
+    @Transactional
+    public void deleteInquiry(Long id) {
+        inquiryRepository.deleteById(id);
     }
 }

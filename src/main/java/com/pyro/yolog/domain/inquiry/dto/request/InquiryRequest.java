@@ -12,6 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class InquiryRequest {
+    @Schema(description = "문의 제목입니다. 공백으로 제출하면 안됩니다.")
+    @NotBlank
+    private String title;
+
     @Schema(description = "문의 내용입니다. 공백으로 제출하면 안됩니다.")
     @NotBlank
     private String content;
