@@ -1,10 +1,10 @@
 package com.pyro.yolog.domain.inquiry.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +19,9 @@ public class DetailInquiryResponse {
     @Schema(description = "문의에 대한 답변")
     private String answer;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
+
     @Schema(description = "답변 완료되었는지 여부")
     private Boolean isAnswered;
 }
