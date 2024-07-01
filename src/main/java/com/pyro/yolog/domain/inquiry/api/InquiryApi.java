@@ -1,11 +1,14 @@
 package com.pyro.yolog.domain.inquiry.api;
 
 import com.pyro.yolog.domain.inquiry.dto.request.InquiryRequest;
+import com.pyro.yolog.domain.inquiry.dto.response.InquiryPreview;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.util.List;
 
 @Tag(name = "Inquiry")
 public interface InquiryApi {
@@ -21,4 +24,17 @@ public interface InquiryApi {
             )
     })
     void createInquiry(InquiryRequest request);
+
+    @Operation(
+            summary = "문의하기 전체 조회",
+            description = "사용자가 제출한 문의를 전체 조회 합니다.",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "문의하기 전체 조회에 성공했습니다."
+            )
+    })
+    List<InquiryPreview> getAllInquiries();
 }
