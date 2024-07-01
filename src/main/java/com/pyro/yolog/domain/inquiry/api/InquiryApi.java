@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.inquiry.api;
 
+import com.pyro.yolog.domain.inquiry.dto.request.InquiryAnswerRequest;
 import com.pyro.yolog.domain.inquiry.dto.request.InquiryRequest;
 import com.pyro.yolog.domain.inquiry.dto.response.DetailInquiryResponse;
 import com.pyro.yolog.domain.inquiry.dto.response.InquiryPreview;
@@ -43,7 +44,7 @@ public interface InquiryApi {
 
     @Operation(
             summary = "문의하기 상세 조회",
-            description = "문의 ID값으로 문의를 상세 조회합니다.",
+            description = "문의 ID 값으로 문의를 상세 조회합니다.",
             security = {@SecurityRequirement(name = "access_token")}
     )
     @ApiResponses(value = {
@@ -55,5 +56,22 @@ public interface InquiryApi {
     DetailInquiryResponse getDetailInquiry(
             @Parameter(in = ParameterIn.PATH, description = "문의 ID", required = true)
             Long id
+    );
+
+    @Operation(
+            summary = "문의하기 답변",
+            description = "문의에 대하여 답변합니다.",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "문의하기 답변에 성공했습니다."
+            )
+    })
+    void updateAnswer(
+            @Parameter(in = ParameterIn.PATH, description = "문의 ID", required = true)
+            Long id,
+            InquiryAnswerRequest request
     );
 }

@@ -1,5 +1,6 @@
 package com.pyro.yolog.domain.inquiry.api;
 
+import com.pyro.yolog.domain.inquiry.dto.request.InquiryAnswerRequest;
 import com.pyro.yolog.domain.inquiry.dto.request.InquiryRequest;
 import com.pyro.yolog.domain.inquiry.dto.response.DetailInquiryResponse;
 import com.pyro.yolog.domain.inquiry.dto.response.InquiryPreview;
@@ -36,5 +37,12 @@ public class InquiryController implements InquiryApi {
     @Override
     public DetailInquiryResponse getDetailInquiry(@PathVariable Long id) {
         return inquiryService.getDetailInquiry(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    @Override
+    public void updateAnswer(@PathVariable Long id, @RequestBody InquiryAnswerRequest request) {
+        inquiryService.updateAnswer(id, request);
     }
 }
