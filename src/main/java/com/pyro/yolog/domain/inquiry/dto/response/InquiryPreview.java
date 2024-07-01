@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class InquiryPreview {
+    private Long id;
     private String title;
     private LocalDateTime createdAt;
     private Boolean isAnswered;
