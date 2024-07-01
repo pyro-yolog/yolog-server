@@ -38,5 +38,6 @@ public class Inquiry extends BaseTimeEntity {
 
     public void updateAnswer(String answer) {
         this.answer = answer;
+        this.isAnswered = true;
     }
 }
