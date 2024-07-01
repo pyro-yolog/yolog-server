@@ -47,7 +47,7 @@ public class InquiryController implements InquiryApi {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/{id}")
+    @DeleteMapping("/{id}")
     @Override
     public void deleteAnswer(@PathVariable Long id) {
         inquiryService.deleteInquiry(id);
