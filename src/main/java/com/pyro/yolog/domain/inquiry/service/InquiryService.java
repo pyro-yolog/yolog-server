@@ -38,6 +38,7 @@ public class InquiryService {
                 new CreateInquiryImageDto(inquiry, request.getImageUrls()));
     }
 
+    @Transactional(readOnly = true)
     public List<InquiryPreview> getAllInquiries() {
         Member member = authService.getLoginUser();
         return inquiryRepository.findAllByMember(member).stream()
@@ -49,6 +50,7 @@ public class InquiryService {
         return inquiryMapper.toDetailResponse(inquiry);
     }
 
+    @Transactional
     public void updateAnswer(Long id, InquiryAnswerRequest request) {
         Member member = authService.getLoginUser();
         if (!member.getRole().equals(Role.ADMIN)) {
@@ -56,5 +58,10 @@ public class InquiryService {
         }
         Inquiry inquiry = inquiryRepository.findById(id).orElseThrow(InquiryNotFoundException::new);
         inquiry.updateAnswer(request.getAnswer());
+    }
+
+    @Transactional
+    public void deleteInquiry(Long id) {
+        inquiryRepository.deleteById(id);
     }
 }

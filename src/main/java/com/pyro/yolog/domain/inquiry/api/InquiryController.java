@@ -42,7 +42,14 @@ public class InquiryController implements InquiryApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{id}")
     @Override
-    public void updateAnswer(@PathVariable Long id, @RequestBody InquiryAnswerRequest request) {
+    public void updateAnswer(@PathVariable Long id, @Valid @RequestBody InquiryAnswerRequest request) {
         inquiryService.updateAnswer(id, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    @Override
+    public void deleteAnswer(@PathVariable Long id) {
+        inquiryService.deleteInquiry(id);
     }
 }

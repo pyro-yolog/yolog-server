@@ -74,4 +74,20 @@ public interface InquiryApi {
             Long id,
             InquiryAnswerRequest request
     );
+
+    @Operation(
+            summary = "문의하기 삭제",
+            description = "문의를 삭제합니다.",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "문의 삭제하기에 성공했습니다."
+            )
+    })
+    void deleteAnswer(
+            @Parameter(in = ParameterIn.PATH, description = "문의 ID", required = true)
+            Long id
+    );
 }
