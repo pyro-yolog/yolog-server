@@ -18,11 +18,9 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        SecurityRequirement securityRequirement = new SecurityRequirement().addList(JWT);
         return new OpenAPI()
                 .servers(getServers())
                 .info(getInfo())
-                .addSecurityItem(securityRequirement)
                 .components(getComponents());
     }
 
@@ -41,11 +39,12 @@ public class SwaggerConfig {
     }
 
     private Components getComponents() {
-        return new Components().addSecuritySchemes(JWT, new SecurityScheme()
-                .name(JWT)
-                .type(SecurityScheme.Type.HTTP)
+        return new Components().addSecuritySchemes("access_token", new SecurityScheme()
+                .name("Authorization")
                 .scheme(BEARER)
                 .bearerFormat(JWT)
+                .in(SecurityScheme.In.HEADER)
+                .type(SecurityScheme.Type.HTTP)
         );
     }
 }
