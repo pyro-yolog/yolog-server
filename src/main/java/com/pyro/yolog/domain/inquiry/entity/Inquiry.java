@@ -21,9 +21,7 @@ public class Inquiry extends BaseTimeEntity {
     private String content;
     private String answer;
 
-    @Column(nullable = false)
-    @ColumnDefault("false")
-    private Boolean isAnswered;
+    private Boolean isAnswered = false;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
