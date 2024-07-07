@@ -28,16 +28,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         if(oAuth2User.getRole() == Role.GUEST) {
             String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
             response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-            response.sendRedirect("oauth2/sign-up");
+            response.sendRedirect("/social-login?Authorization=" + accessToken);
 
             jwtService.sendAccessAndRefreshToken(response, accessToken, null);
         } else {
-            loginSuccess(response, oAuth2User);
-            response.sendRedirect("/");
+            String redirect = loginSuccess(response, oAuth2User);
+            response.sendRedirect(redirect);
         }
     }
 
-    private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
+    private String loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         log.info("회원가입에 성공하였습니다. refresh token 을 생성합니다.");
 
         String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
@@ -47,6 +47,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
+        return "/?Authorization=" + accessToken + "&Authorization-Refresh=" + refreshToken;
     }
 }
 
