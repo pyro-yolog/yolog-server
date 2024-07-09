@@ -20,6 +20,11 @@ public enum ErrorCode {
     // INQUIRY
     INQUIRY_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당 문의를 찾지 못했습니다."),
     INQUIRY_NOT_ADMIN_MEMBER(HttpStatus.BAD_REQUEST, "문의하기 답변은 관리자만 가능합니다."),
+
+    //DIARY
+    REQUEST_WEATHER_NAME_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 날씨를 입력해야 합니다."),
+    REQUEST_MOOD_NAME_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 기분을 입력해야 합니다."),
+
     ;
 
     private final HttpStatus status;

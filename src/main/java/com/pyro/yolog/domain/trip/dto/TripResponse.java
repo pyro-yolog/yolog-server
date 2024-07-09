@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,6 +16,6 @@ public class TripResponse {
     private String destination;
     private String coverImageUrl;
 
-    private LocalDateTime startDate;
-    private LocalDateTime finishDate;
+    private LocalDate startDate;
+    private LocalDate finishDate;
 }

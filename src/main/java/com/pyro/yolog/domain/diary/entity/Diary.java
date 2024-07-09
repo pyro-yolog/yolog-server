@@ -10,8 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Blob;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -22,9 +21,10 @@ public class Diary {
     private Long id;
 
     @Column(nullable = false)
+    private String dayName;
+
     private String title;
 
-    @Column(nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
@@ -32,20 +32,22 @@ public class Diary {
     @Enumerated(EnumType.STRING)
     private Weather weather;
 
-    private LocalDateTime travelDate;
+    private LocalDate travelDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trip trip;
 
     @Builder
-    public Diary(String title, LocalDateTime travelDate) {
-        this.title = title;
+    public Diary(Trip trip, String dayName, LocalDate travelDate) {
+        this.trip = trip;
+        this.dayName = dayName;
         this.travelDate = travelDate;
     }
 
-    public void updateContent(DiaryContentRequest request) {
+    public void updateTitleAndContent(DiaryContentRequest request) {
         this.content = request.getContent();
+        this.title = request.getTitle();
     }
 
     public void updateWeather(Weather weather) {

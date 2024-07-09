@@ -1,16 +1,18 @@
 package com.pyro.yolog.domain.diary.api;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.DiaryDateRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
-import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,24 +21,30 @@ public class DiaryController implements DiaryApi {
     private final DiaryService diaryService;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{tripId}/{date}")
+    @GetMapping("/{id}")
     @Override
-    public DiaryResponse getDiary(@PathVariable final Long tripId, @PathVariable final LocalDateTime date) {
-        return diaryService.getDiary(tripId, date);
+    public DetailDiaryResponse getDiary(@PathVariable final Long id) {
+        return diaryService.getDiary(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{tripId}/days/{dayName}")
+    @Override
+    public List<PreviewDiaryResponse> getDiaries(@PathVariable final Long tripId, @PathVariable final String dayName) {
+        return diaryService.getDiaries(tripId, dayName);
+    }
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{tripId}")
     @Override
-    public DefaultDiaryResponse createDefaultDiary(@PathVariable final Long tripId, @PathVariable final LocalDateTime date) {
-        return diaryService.createDefaultDiary(tripId, date);
+    public DefaultDiaryResponse createDefaultDiary(@PathVariable final Long tripId, @RequestBody DiaryDateRequest request) {
+        return diaryService.createDefaultDiary(tripId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}/content")
     @Override
-    public void updateDiaryContent(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
-        diaryService.updateDiaryContent(id, request);
+    public void updateDiaryTitleAndContent(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
+        diaryService.updateDiaryTitleAndContent(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

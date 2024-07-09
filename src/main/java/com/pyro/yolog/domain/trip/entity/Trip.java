@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -26,17 +26,17 @@ public class Trip extends BaseTimeEntity {
     private String coverImageUrl;
 
     @NotNull
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @NotNull
-    private LocalDateTime finishDate;
+    private LocalDate finishDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Trip(String name, String destination, String coverImageUrl, LocalDateTime startDate, LocalDateTime finishDate, Member member) {
+    public Trip(String name, String destination, String coverImageUrl, LocalDate startDate, LocalDate finishDate, Member member) {
         this.name = name;
         this.destination = destination;
         this.coverImageUrl = coverImageUrl;

@@ -6,16 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
 @Builder
-public class DiaryResponse {
+public class DetailDiaryResponse {
     private Long id;
+    private String dayName;
     private String title;
     private String content;
     private Mood mood;
     private Weather weather;
-    private LocalDateTime travelDate;
+    private LocalDate travelDate;
 }
