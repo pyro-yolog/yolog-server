@@ -1,10 +1,12 @@
 package com.pyro.yolog.domain.diary.service;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.DiaryDateRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
-import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import com.pyro.yolog.domain.diary.entity.Diary;
 import com.pyro.yolog.domain.diary.entity.Mood;
 import com.pyro.yolog.domain.diary.entity.Weather;
@@ -18,8 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,24 +33,29 @@ public class DiaryService {
     private final TripRepository tripRepository;
     private final DiaryMapper diaryMapper;
 
-    public DiaryResponse getDiary(Long tripId, LocalDateTime date) {
-        return diaryMapper.toResponse(diaryRepository.findByTripIdAndTravelDate(tripId, date)
+    public DetailDiaryResponse getDiary(Long id) {
+        return diaryMapper.toDetailResponse(diaryRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new));
     }
 
-    @Transactional
-    public DefaultDiaryResponse createDefaultDiary(final Long tripId, final LocalDateTime date) {
-        final LocalDateTime startDate = tripRepository.findById(tripId)
-                .orElseThrow(EntityNotFoundException::new).getStartDate();
-        final String title = DAY + ChronoUnit.DAYS.between(startDate, date);
-        return diaryMapper.toDefaultFormatResponse(
-                diaryRepository.save(diaryMapper.toEntity(title, startDate)));
+
+    public List<PreviewDiaryResponse> getDiaries(Long tripId, String dayName) {
+        List<Diary> diaries = diaryRepository.findAllByTripIdAndDayName(tripId, dayName);
+        return diaries.stream().map(diaryMapper::toPreviewResponse).collect(Collectors.toList());
     }
 
     @Transactional
-    public void updateDiaryContent(Long id, DiaryContentRequest request) {
+    public DefaultDiaryResponse createDefaultDiary(final Long tripId, final DiaryDateRequest request) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(EntityNotFoundException::new);
+        final String dayName = DAY + (ChronoUnit.DAYS.between(trip.getStartDate(), request.getDate()) + 1);
+        return diaryMapper.toDefaultFormatResponse(
+                diaryRepository.save(diaryMapper.toEntity(trip, dayName, request.getDate())));
+    }
+
+    @Transactional
+    public void updateDiaryTitleAndContent(Long id, DiaryContentRequest request) {
         final Diary diary = diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        diary.updateContent(request);
+        diary.updateTitleAndContent(request);
     }
 
     @Transactional
@@ -76,4 +84,5 @@ public class DiaryService {
             }
         });
     }
+
 }
