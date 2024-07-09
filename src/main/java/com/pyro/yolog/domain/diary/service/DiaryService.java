@@ -66,13 +66,13 @@ public class DiaryService {
     @Transactional
     public void updateWeather(Long id, WeatherRequest request) {
         diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
-                .updateWeather(Weather.valueOf(request.getWeather()));
+                .updateWeather(request.getWeather());
     }
 
     @Transactional
     public void updateMood(Long id, MoodRequest request) {
         diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new)
-                .updateMood(Mood.valueOf(request.getMood()));
+                .updateMood(request.getMood());
     }
 
 
