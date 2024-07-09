@@ -1,10 +1,12 @@
 package com.pyro.yolog.domain.diary.api;
 
 import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.DiaryDateRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
-import com.pyro.yolog.domain.diary.dto.response.DiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
+import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -14,13 +16,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Tag(name = "Diary")
 public interface DiaryApi {
     @Operation(
             summary = "일기 조회",
-            description = "일기장의 일기를 조회합니다.",
+            description = "일기를 조회합니다.",
             security = {@SecurityRequirement(name = "access_token")}
     )
     @ApiResponses(
@@ -31,13 +33,32 @@ public interface DiaryApi {
                     )
             }
     )
-    DiaryResponse getDiary(
+    DetailDiaryResponse getDiary(
+            @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+            Long id
+    );
+
+    @Operation(
+            summary = "특정 날짜의 일기 전체 조회",
+            description = "특정 날짜의 일기장의 일기를 전체 조회합니다.",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK"
+                    )
+            }
+    )
+    List<PreviewDiaryResponse> getDiaries(
             @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long tripId,
 
-            @Parameter(in = ParameterIn.PATH, description = "여행 날짜", required = true)
-            LocalDateTime date
+            @Parameter(in = ParameterIn.PATH, description = "일기 DayName", required = true)
+            String dayName
     );
+
 
     @Operation(
             summary = "디폴트 일기 생성",
@@ -56,8 +77,7 @@ public interface DiaryApi {
             @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long tripId,
 
-            @Parameter(in = ParameterIn.PATH, description = "일기 작성 날짜", required = true)
-            LocalDateTime date
+            DiaryDateRequest request
     );
 
     @Operation(
@@ -73,7 +93,7 @@ public interface DiaryApi {
                     )
             }
     )
-    void updateDiaryContent(
+    void updateDiaryTitleAndContent(
             @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
             Long id,
 
