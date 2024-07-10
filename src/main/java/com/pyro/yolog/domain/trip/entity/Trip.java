@@ -23,7 +23,11 @@ public class Trip extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
     private String destination;
+
     private String coverImageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private ColorCover colorCover;
 
     @NotNull
     private LocalDate startDate;
@@ -36,10 +40,11 @@ public class Trip extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public Trip(String name, String destination, String coverImageUrl, LocalDate startDate, LocalDate finishDate, Member member) {
+    public Trip(String name, String destination, String coverImageUrl, ColorCover colorCover, LocalDate startDate, LocalDate finishDate, Member member) {
         this.name = name;
         this.destination = destination;
         this.coverImageUrl = coverImageUrl;
+        this.colorCover = colorCover;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.member = member;

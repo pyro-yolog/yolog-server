@@ -49,6 +49,6 @@ public class TripService {
     public List<TripResponse> getTrips() {
         Member login = authService.getLoginUser();
         return tripRepository.findAllByMember(login).stream()
-                .map(tripMapper::toResponse).collect(Collectors.toList());
+                .map(TripResponse::new).collect(Collectors.toList());
     }
 }
