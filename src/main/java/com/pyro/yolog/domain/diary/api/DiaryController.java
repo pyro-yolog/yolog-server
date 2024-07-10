@@ -8,6 +8,7 @@ import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.service.DiaryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -57,14 +58,14 @@ public class DiaryController implements DiaryApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}/weather")
     @Override
-    public void updateWeather(@PathVariable final Long id, @RequestBody final WeatherRequest request) {
+    public void updateWeather(@PathVariable final Long id, @Valid @RequestBody final WeatherRequest request) {
         diaryService.updateWeather(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}/mood")
     @Override
-    public void updateMood(@PathVariable final Long id, @RequestBody final MoodRequest request) {
+    public void updateMood(@PathVariable final Long id, @Valid  @RequestBody final MoodRequest request) {
         diaryService.updateMood(id, request);
     }
 }
