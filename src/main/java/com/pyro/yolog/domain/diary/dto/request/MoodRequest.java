@@ -1,6 +1,7 @@
 package com.pyro.yolog.domain.diary.dto.request;
 
 import com.pyro.yolog.domain.diary.entity.Mood;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,5 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MoodRequest {
+    @Schema(defaultValue = "행복한")
     private Mood mood;
 }

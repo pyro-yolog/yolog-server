@@ -34,14 +34,14 @@ public class DiaryService {
     private final DiaryMapper diaryMapper;
 
     public DetailDiaryResponse getDiary(Long id) {
-        return diaryMapper.toDetailResponse(diaryRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new));
+        return new DetailDiaryResponse((diaryRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new)));
     }
 
 
     public List<PreviewDiaryResponse> getDiaries(Long tripId, String dayName) {
         List<Diary> diaries = diaryRepository.findAllByTripIdAndDayName(tripId, dayName);
-        return diaries.stream().map(diaryMapper::toPreviewResponse).collect(Collectors.toList());
+        return diaries.stream().map(PreviewDiaryResponse::new).collect(Collectors.toList());
     }
 
     @Transactional
