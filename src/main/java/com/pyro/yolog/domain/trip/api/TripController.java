@@ -49,7 +49,7 @@ public class TripController implements TripApi {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     @Override
-    public TripResponse getTrip(@Parameter Long id) {
+    public TripResponse getTrip(@PathVariable Long id) {
         return tripService.getTripDetail(id);
     }
 }
