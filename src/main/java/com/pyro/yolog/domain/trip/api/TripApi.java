@@ -2,6 +2,7 @@ package com.pyro.yolog.domain.trip.api;
 
 import com.pyro.yolog.domain.trip.dto.TripRequest;
 import com.pyro.yolog.domain.trip.dto.TripResponse;
+import com.pyro.yolog.domain.trip.entity.Trip;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -41,7 +42,7 @@ public interface TripApi {
             )
     })
     void updateTrip(
-            @Parameter(in = ParameterIn.QUERY, description = "일기장 ID", required = true)
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long id,
 
             @RequestBody TripRequest request
@@ -59,7 +60,7 @@ public interface TripApi {
             )
     })
     void deleteTrip(
-            @Parameter(in = ParameterIn.QUERY, description = "일기장 ID", required = true)
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long id
     );
 
@@ -77,5 +78,24 @@ public interface TripApi {
             }
     )
     List<TripResponse> getTrips();
+
+    @Operation(
+            summary = "일기장 상세 조회",
+            description = "일기장을 상세 조회합니다.",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK"
+                    )
+            }
+    )
+    TripResponse getTrip(
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
+            Long id
+    );
+
 
 }

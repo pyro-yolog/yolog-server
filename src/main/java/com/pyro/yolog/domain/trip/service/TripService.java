@@ -8,7 +8,7 @@ import com.pyro.yolog.domain.trip.dto.TripResponse;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.mapper.TripMapper;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.pyro.yolog.domain.trip.exception.TripNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class TripService {
 
     @Transactional
     public void updateTrip(final Long id, final TripRequest request) {
-        final Trip trip = tripRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        final Trip trip = tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
         trip.update(request);
         diaryService.deleteOutOfDuration(trip);
     }
@@ -43,12 +43,16 @@ public class TripService {
     }
 
     public Trip getTrip(final Long id) {
-        return tripRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
     }
 
     public List<TripResponse> getTrips() {
         Member login = authService.getLoginUser();
         return tripRepository.findAllByMember(login).stream()
                 .map(TripResponse::new).collect(Collectors.toList());
+    }
+
+    public TripResponse getTripDetail(Long id) {
+        return new TripResponse(getTrip(id));
     }
 }
