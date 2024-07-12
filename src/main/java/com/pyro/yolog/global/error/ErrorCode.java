@@ -19,9 +19,10 @@ public enum ErrorCode {
 
     // INQUIRY
     INQUIRY_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당 문의를 찾지 못했습니다."),
-    INQUIRY_NOT_ADMIN_MEMBER(HttpStatus.BAD_REQUEST, "문의하기 답변은 관리자만 가능합니다."),
+    INQUIRY_NOT_ADMIN_MEMBER_ERROR(HttpStatus.BAD_REQUEST, "문의하기 답변은 관리자만 가능합니다."),
 
     // TRIP
+    TRIP_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당 일기장을 찾지 못했습니다."),
     REQUEST_COLOR_COVER_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 색상 코드를 입력해야 합니다."),
 
     //DIARY
