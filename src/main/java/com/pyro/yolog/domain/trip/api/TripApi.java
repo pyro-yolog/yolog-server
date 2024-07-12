@@ -42,7 +42,7 @@ public interface TripApi {
             )
     })
     void updateTrip(
-            @Parameter(in = ParameterIn.QUERY, description = "일기장 ID", required = true)
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long id,
 
             @RequestBody TripRequest request
@@ -60,7 +60,7 @@ public interface TripApi {
             )
     })
     void deleteTrip(
-            @Parameter(in = ParameterIn.QUERY, description = "일기장 ID", required = true)
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long id
     );
 
@@ -93,7 +93,7 @@ public interface TripApi {
             }
     )
     TripResponse getTrip(
-            @Parameter(in = ParameterIn.QUERY, description = "일기장 ID", required = true)
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long id
     );
 
