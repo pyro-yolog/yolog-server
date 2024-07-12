@@ -2,7 +2,9 @@ package com.pyro.yolog.domain.trip.api;
 
 import com.pyro.yolog.domain.trip.dto.TripRequest;
 import com.pyro.yolog.domain.trip.dto.TripResponse;
+import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.service.TripService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,5 +46,10 @@ public class TripController implements TripApi {
         return tripService.getTrips();
     }
 
-
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    @Override
+    public TripResponse getTrip(@Parameter Long id) {
+        return tripService.getTripDetail(id);
+    }
 }
