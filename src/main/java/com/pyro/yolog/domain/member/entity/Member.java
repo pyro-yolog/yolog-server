@@ -1,6 +1,6 @@
 package com.pyro.yolog.domain.member.entity;
 
-import com.pyro.yolog.domain.member.dto.SignUpRequest;
+import com.pyro.yolog.domain.member.dto.request.SignUpRequest;
 import com.pyro.yolog.global.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;

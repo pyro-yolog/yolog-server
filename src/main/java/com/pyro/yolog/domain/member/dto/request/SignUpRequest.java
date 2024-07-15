@@ -1,4 +1,4 @@
-package com.pyro.yolog.domain.member.dto;
+package com.pyro.yolog.domain.member.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

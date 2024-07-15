@@ -1,8 +1,7 @@
-package com.pyro.yolog.domain.member.service;
+package com.pyro.yolog.domain.auth.service;
 
-import com.pyro.yolog.domain.member.dto.SignUpRequest;
+import com.pyro.yolog.domain.member.dto.request.SignUpRequest;
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.auth.service.AuthService;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
 import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
 import com.pyro.yolog.global.jwt.service.JwtService;
