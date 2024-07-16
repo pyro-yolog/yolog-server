@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     // MEMBER
     MEMBER_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "회원 정보를 찾지 못했습니다." ),
+    OWNER_NOT_EQUAL_ERROR(HttpStatus.BAD_REQUEST, "작성자만 접근 가능합니다."),
 
     // S3
     FILE_UPLOAD_FAILURE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S3 파일 업로드에 실패했습니다."),
@@ -26,6 +27,7 @@ public enum ErrorCode {
     REQUEST_COLOR_COVER_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 색상 코드를 입력해야 합니다."),
 
     //DIARY
+    DIARY_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당 일기를 찾지 못했습니다."),
     REQUEST_WEATHER_NAME_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 날씨를 입력해야 합니다."),
     REQUEST_MOOD_NAME_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 기분을 입력해야 합니다."),
 
