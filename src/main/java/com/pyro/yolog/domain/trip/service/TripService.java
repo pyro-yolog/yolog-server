@@ -3,6 +3,7 @@ package com.pyro.yolog.domain.trip.service;
 import com.pyro.yolog.domain.diary.service.DiaryService;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.domain.member.exception.OwnerNotEqualException;
 import com.pyro.yolog.domain.trip.dto.TripRequest;
 import com.pyro.yolog.domain.trip.dto.TripResponse;
 import com.pyro.yolog.domain.trip.entity.Trip;
@@ -33,17 +34,15 @@ public class TripService {
     @Transactional
     public void updateTrip(final Long id, final TripRequest request) {
         final Trip trip = tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
+        checkTripOwner(trip);
         trip.update(request);
         diaryService.deleteOutOfDuration(trip);
     }
 
     @Transactional
     public void deleteTrip(Long id) {
+        checkTripOwner(getTrip(id));
         tripRepository.deleteById(id);
-    }
-
-    public Trip getTrip(final Long id) {
-        return tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
     }
 
     public List<TripResponse> getTrips() {
@@ -54,5 +53,17 @@ public class TripService {
 
     public TripResponse getTripDetail(Long id) {
         return new TripResponse(getTrip(id));
+    }
+
+    public Trip getTrip(final Long id) {
+        Trip trip = tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
+        checkTripOwner(trip);
+        return trip;
+    }
+
+    private void checkTripOwner(Trip trip) {
+        if (!trip.getMember().equals(authService.getLoginUser())) {
+            throw new OwnerNotEqualException();
+        }
     }
 }
