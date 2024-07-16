@@ -2,10 +2,10 @@ package com.pyro.yolog.domain.auth.service;
 
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.entity.SocialType;
+import com.pyro.yolog.domain.member.exception.MemberNotFoundException;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
 import com.pyro.yolog.global.jwt.service.JwtService;
 import com.pyro.yolog.global.query.QueryService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ public class AuthService {
     public Member getLoginUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return memberRepository.findByEmail(userDetails.getUsername()).orElseThrow(EntityNotFoundException::new);
+        return memberRepository.findByEmail(userDetails.getUsername()).orElseThrow(MemberNotFoundException::new);
     }
 
 
