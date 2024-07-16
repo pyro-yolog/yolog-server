@@ -23,7 +23,7 @@ public class TripRequest {
     @URL
     private String coverImageUrl;
 
-    @Schema(defaultValue = "ECD5E3", description = "색상 커버입니다. 지정된 색상 코드만 입력되어야 합니다.")
+    @Schema(defaultValue = "#ECD5E3", description = "색상 커버입니다. 지정된 색상 코드만 입력되어야 합니다.")
     private ColorCover colorCover;
 
     @Schema(defaultValue = "2024-07-05")
