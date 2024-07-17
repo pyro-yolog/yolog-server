@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Diary")
@@ -55,8 +56,8 @@ public interface DiaryApi {
             @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long tripId,
 
-            @Parameter(in = ParameterIn.PATH, description = "일기 DayName", required = true)
-            String dayName
+            @Parameter(in = ParameterIn.PATH, description = "여행 날짜", required = true)
+            LocalDate date
     );
 
 

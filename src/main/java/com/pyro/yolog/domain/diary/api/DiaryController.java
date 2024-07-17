@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,10 +30,10 @@ public class DiaryController implements DiaryApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{tripId}/days/{dayName}")
+    @GetMapping("/{tripId}/days/{date}")
     @Override
-    public List<PreviewDiaryResponse> getDiaries(@PathVariable final Long tripId, @PathVariable final String dayName) {
-        return diaryService.getDiaries(tripId, dayName);
+    public List<PreviewDiaryResponse> getDiaries(@PathVariable final Long tripId, @PathVariable final LocalDate date) {
+        return diaryService.getDiaries(tripId, date);
     }
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{tripId}")

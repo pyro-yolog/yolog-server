@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,10 +44,10 @@ public class DiaryService {
     }
 
 
-    public List<PreviewDiaryResponse> getDiaries(Long tripId, String dayName) {
+    public List<PreviewDiaryResponse> getDiaries(Long tripId, LocalDate dayName) {
         checkTripOwner(tripRepository.findById(tripId)
                 .orElseThrow(TripNotFoundException::new));
-        List<Diary> diaries = diaryRepository.findAllByTripIdAndDayName(tripId, dayName);
+        List<Diary> diaries = diaryRepository.findAllByTripIdAndTravelDate(tripId, dayName);
         return diaries.stream().map(PreviewDiaryResponse::new)
                 .collect(Collectors.toList());
     }
