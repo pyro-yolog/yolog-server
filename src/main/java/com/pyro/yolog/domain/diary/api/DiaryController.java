@@ -1,9 +1,8 @@
 package com.pyro.yolog.domain.diary.api;
 
-import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
-import com.pyro.yolog.domain.diary.dto.request.DiaryDateRequest;
+import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
-import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
@@ -38,14 +37,14 @@ public class DiaryController implements DiaryApi {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{tripId}")
     @Override
-    public DefaultDiaryResponse createDefaultDiary(@PathVariable final Long tripId, @RequestBody DiaryDateRequest request) {
-        return diaryService.createDefaultDiary(tripId, request);
+    public void createDiary(@PathVariable final Long tripId, @RequestBody CreateDiaryRequest request) {
+        diaryService.createDiary(tripId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}/content")
     @Override
-    public void updateDiaryTitleAndContent(@PathVariable final Long id, @RequestBody final DiaryContentRequest request) {
+    public void updateDiaryTitleAndContent(@PathVariable final Long id, @RequestBody final PutDiaryContentRequest request) {
         diaryService.updateDiaryTitleAndContent(id, request);
     }
 

@@ -1,7 +1,7 @@
 package com.pyro.yolog.domain.diary.api;
 
-import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
-import com.pyro.yolog.domain.diary.dto.request.DiaryDateRequest;
+import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
 import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
@@ -62,8 +62,8 @@ public interface DiaryApi {
 
 
     @Operation(
-            summary = "디폴트 일기 생성",
-            description = "제목과 여행 날짜를 가진 일기를 생성합니다.",
+            summary = "일기 생성",
+            description = "일기를 생성합니다.",
             security = {@SecurityRequirement(name = "access_token")}
     )
     @ApiResponses(
@@ -74,11 +74,11 @@ public interface DiaryApi {
                     )
             }
     )
-    DefaultDiaryResponse createDefaultDiary(
+    void createDiary(
             @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long tripId,
 
-            DiaryDateRequest request
+            CreateDiaryRequest request
     );
 
     @Operation(
@@ -98,7 +98,7 @@ public interface DiaryApi {
             @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
             Long id,
 
-            @RequestBody(required = true) DiaryContentRequest request
+            @RequestBody(required = true) PutDiaryContentRequest request
     );
 
     @Operation(
