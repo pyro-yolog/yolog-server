@@ -23,7 +23,6 @@ public class DetailDiaryResponse {
 
     public DetailDiaryResponse(Diary diary) {
         this.id = diary.getId();
-        this.dayName = diary.getDayName();
         this.title = diary.getTitle();
         this.content = diary.getContent();
         this.mood = getMood(diary.getMood());

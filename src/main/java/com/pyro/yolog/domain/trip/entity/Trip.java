@@ -27,7 +27,10 @@ public class Trip extends BaseTimeEntity {
     private String coverImageUrl;
 
     @Enumerated(EnumType.STRING)
-    private ColorCover colorCover;
+    private CoverColor coverColor;
+
+    @Enumerated(EnumType.STRING)
+    private SpineColor spineColor;
 
     @NotNull
     private LocalDate startDate;
@@ -40,11 +43,12 @@ public class Trip extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public Trip(String name, String destination, String coverImageUrl, ColorCover colorCover, LocalDate startDate, LocalDate finishDate, Member member) {
+    public Trip(String name, String destination, String coverImageUrl, CoverColor coverColor, SpineColor spineColor, LocalDate startDate, LocalDate finishDate, Member member) {
         this.name = name;
         this.destination = destination;
         this.coverImageUrl = coverImageUrl;
-        this.colorCover = colorCover;
+        this.coverColor = coverColor;
+        this.spineColor = spineColor;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.member = member;
@@ -53,6 +57,8 @@ public class Trip extends BaseTimeEntity {
     public void update(TripRequest request) {
         this.name = request.getName();
         this.coverImageUrl = request.getCoverImageUrl();
+        this.coverColor = request.getCoverColor();
+        this.spineColor = request.getSpineColor();
         this.destination = request.getDestination();
         this.startDate = request.getStartDate();
         this.finishDate = request.getFinishDate();

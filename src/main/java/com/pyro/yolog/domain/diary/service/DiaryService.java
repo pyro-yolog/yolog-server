@@ -1,11 +1,10 @@
 package com.pyro.yolog.domain.diary.service;
 
 import com.pyro.yolog.domain.auth.service.AuthService;
-import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
-import com.pyro.yolog.domain.diary.dto.request.DiaryDateRequest;
+import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
-import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import com.pyro.yolog.domain.diary.entity.Diary;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,15 +51,13 @@ public class DiaryService {
     }
 
     @Transactional
-    public DefaultDiaryResponse createDefaultDiary(final Long tripId, final DiaryDateRequest request) {
+    public void createDiary(final Long tripId, final CreateDiaryRequest request) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(TripNotFoundException::new);
-        final String dayName = DAY + (ChronoUnit.DAYS.between(trip.getStartDate(), request.getDate()) + 1);
-        return diaryMapper.toDefaultFormatResponse(
-                diaryRepository.save(diaryMapper.toEntity(trip, dayName, request.getDate())));
+        diaryRepository.save(diaryMapper.toEntity(request, trip));
     }
 
     @Transactional
-    public void updateDiaryTitleAndContent(Long id, DiaryContentRequest request) {
+    public void updateDiaryTitleAndContent(Long id, PutDiaryContentRequest request) {
         final Diary diary = diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new);
         checkDiaryOwner(diary);
         diary.updateTitleAndContent(request);

@@ -23,7 +23,6 @@ public class PreviewDiaryResponse {
 
     public PreviewDiaryResponse(Diary diary) {
         this.id = diary.getId();
-        this.dayName = diary.getDayName();
         this.content = diary.getContent();
         this.mood = getMood(diary.getMood());
         this.weather = getWeather(diary.getWeather());

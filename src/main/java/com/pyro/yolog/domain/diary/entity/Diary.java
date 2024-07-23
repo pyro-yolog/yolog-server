@@ -1,8 +1,6 @@
 package com.pyro.yolog.domain.diary.entity;
 
-import com.pyro.yolog.domain.diary.dto.request.DiaryContentRequest;
-import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
-import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
+import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,9 +18,6 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String dayName;
-
     private String title;
 
     private String content;
@@ -39,13 +34,12 @@ public class Diary {
     private Trip trip;
 
     @Builder
-    public Diary(Trip trip, String dayName, LocalDate travelDate) {
+    public Diary(Trip trip, LocalDate travelDate) {
         this.trip = trip;
-        this.dayName = dayName;
         this.travelDate = travelDate;
     }
 
-    public void updateTitleAndContent(DiaryContentRequest request) {
+    public void updateTitleAndContent(PutDiaryContentRequest request) {
         this.content = request.getContent();
         this.title = request.getTitle();
     }

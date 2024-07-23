@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 @Getter
 @RequiredArgsConstructor
-public enum ColorCover {
+public enum CoverColor {
     PALE_YELLOW("#FFFFB5"),
     AQUA_BLUE("#D2F5F5"),
     PASTEL_BLUE("#C6DCE9"),
@@ -31,8 +31,8 @@ public enum ColorCover {
     private final String code;
 
     @JsonCreator
-    public static ColorCover parsing(String inputValue) {
-        return Stream.of(ColorCover.values())
+    public static CoverColor parsing(String inputValue) {
+        return Stream.of(CoverColor.values())
                 .filter(color -> color.getCode().equals(inputValue))
                 .findFirst()
                 .orElseThrow(RequestColorCoverInvalidException::new);
