@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -34,9 +35,13 @@ public class S3ImageService {
 
     private final AmazonS3 amazonS3;
 
-    public S3ImageDto uploadImage(MultipartFile file) {
-        validateImageExtension(file.getOriginalFilename());
-        return new S3ImageDto(uploadImageToS3(file));
+    public List<S3ImageDto> uploadImage(List<MultipartFile> files) {
+        List<S3ImageDto> imageUrls = new ArrayList<>();
+        files.forEach(file -> {
+                validateImageExtension(file.getOriginalFilename());
+                imageUrls.add(new S3ImageDto(uploadImageToS3(file)));
+            });
+        return imageUrls;
     }
 
     private void validateImageExtension(String fileName) {
