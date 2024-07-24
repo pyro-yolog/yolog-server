@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("images")
@@ -16,8 +18,8 @@ public class S3ImageImageController implements S3ImageApi {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     @Override
-    public S3ImageDto uploadImage(@RequestPart(value = "image", required = false) MultipartFile image) {
-        return s3ImageService.uploadImage(image);
+    public List<S3ImageDto> uploadImage(@RequestPart(value = "images", required = false) List<MultipartFile> images) {
+        return s3ImageService.uploadImage(images);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

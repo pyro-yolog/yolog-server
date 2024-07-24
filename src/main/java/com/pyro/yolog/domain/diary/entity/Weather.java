@@ -17,12 +17,4 @@ public enum Weather {
     WINDS("바람");
 
     private final String name;
-
-    @JsonCreator
-    public static Weather parsing(String inputValue) {
-        return Stream.of(Weather.values())
-                .filter(weather -> weather.getName().equals(inputValue))
-                .findFirst()
-                .orElseThrow(RequestWeatherNameInvalidException::new);
-    }
 }

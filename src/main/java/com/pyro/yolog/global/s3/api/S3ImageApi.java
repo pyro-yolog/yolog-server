@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface S3ImageApi {
     @Operation(
             summary = "이미지 업로드",
@@ -20,7 +22,7 @@ public interface S3ImageApi {
                     description = "Created"
             )
     })
-    S3ImageDto uploadImage(MultipartFile image);
+    List<S3ImageDto> uploadImage(List<MultipartFile> image);
 
     @Operation(
             summary = "이미지 삭제",
