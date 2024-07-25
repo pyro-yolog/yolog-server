@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class WeatherRequest {
-    @Schema(defaultValue = "맑음")
     private Weather weather;
 }

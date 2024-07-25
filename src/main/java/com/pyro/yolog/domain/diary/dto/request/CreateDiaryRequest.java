@@ -19,8 +19,6 @@ public class CreateDiaryRequest {
     private String content;
     private LocalDate travelDate;
 
-    @Schema(defaultValue = "행복한")
     private Mood mood;
-    @Schema(defaultValue = "맑음")
     private Weather weather;
 }

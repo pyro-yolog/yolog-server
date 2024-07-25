@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MoodRequest {
-    @Schema(defaultValue = "행복한")
     private Mood mood;
 }
