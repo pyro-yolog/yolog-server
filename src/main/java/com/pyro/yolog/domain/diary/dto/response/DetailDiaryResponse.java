@@ -17,8 +17,8 @@ public class DetailDiaryResponse {
     private String dayName;
     private String title;
     private String content;
-    private String mood;
-    private String weather;
+    private Mood mood;
+    private Weather weather;
     private LocalDate travelDate;
 
     public DetailDiaryResponse(Diary diary) {

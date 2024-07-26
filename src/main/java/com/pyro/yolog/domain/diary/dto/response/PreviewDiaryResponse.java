@@ -17,8 +17,8 @@ public class PreviewDiaryResponse {
     private Long id;
     private String dayName;
     private String content;
-    private String mood;
-    private String weather;
+    private Mood mood;
+    private Weather weather;
     private LocalDate travelDate;
 
     public PreviewDiaryResponse(Diary diary) {

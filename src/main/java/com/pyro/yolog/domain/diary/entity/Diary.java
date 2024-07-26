@@ -34,8 +34,12 @@ public class Diary {
     private Trip trip;
 
     @Builder
-    public Diary(Trip trip, LocalDate travelDate) {
+    public Diary(Trip trip, String title, String content, Mood mood, Weather weather, LocalDate travelDate) {
         this.trip = trip;
+        this.title = title;
+        this.content = content;
+        this.mood = mood;
+        this.weather = weather;
         this.travelDate = travelDate;
     }
 
