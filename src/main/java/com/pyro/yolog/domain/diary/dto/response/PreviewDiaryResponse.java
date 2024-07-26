@@ -24,8 +24,8 @@ public class PreviewDiaryResponse {
     public PreviewDiaryResponse(Diary diary) {
         this.id = diary.getId();
         this.content = diary.getContent();
-        this.mood = getMood();
-        this.weather = getWeather();
+        this.mood = diary.getMood();
+        this.weather = diary.getWeather();
         this.travelDate = diary.getTravelDate();
     }
 }

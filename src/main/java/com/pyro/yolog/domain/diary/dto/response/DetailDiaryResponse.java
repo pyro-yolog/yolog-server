@@ -25,8 +25,8 @@ public class DetailDiaryResponse {
         this.id = diary.getId();
         this.title = diary.getTitle();
         this.content = diary.getContent();
-        this.mood = getMood();
-        this.weather = getWeather();
+        this.mood = diary.getMood();
+        this.weather = diary.getWeather();
         this.travelDate = diary.getTravelDate();
     }
 }
