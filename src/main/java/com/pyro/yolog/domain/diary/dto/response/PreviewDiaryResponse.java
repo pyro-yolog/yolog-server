@@ -24,22 +24,8 @@ public class PreviewDiaryResponse {
     public PreviewDiaryResponse(Diary diary) {
         this.id = diary.getId();
         this.content = diary.getContent();
-        this.mood = getMood(diary.getMood());
-        this.weather = getWeather(diary.getWeather());
+        this.mood = getMood();
+        this.weather = getWeather();
         this.travelDate = diary.getTravelDate();
-    }
-
-    private String getMood(Mood mood) {
-        if (mood == null) {
-            return null;
-        }
-        return mood.getName();
-    }
-
-    private String getWeather(Weather weather) {
-        if (weather == null) {
-            return null;
-        }
-        return weather.getName();
     }
 }

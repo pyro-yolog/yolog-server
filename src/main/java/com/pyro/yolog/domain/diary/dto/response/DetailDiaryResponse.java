@@ -25,22 +25,8 @@ public class DetailDiaryResponse {
         this.id = diary.getId();
         this.title = diary.getTitle();
         this.content = diary.getContent();
-        this.mood = getMood(diary.getMood());
-        this.weather = getWeather(diary.getWeather());
+        this.mood = getMood();
+        this.weather = getWeather();
         this.travelDate = diary.getTravelDate();
-    }
-
-    private String getMood(Mood mood) {
-        if (mood == null) {
-            return null;
-        }
-        return mood.getName();
-    }
-
-    private String getWeather(Weather weather) {
-        if (weather == null) {
-            return null;
-        }
-        return weather.getName();
     }
 }
