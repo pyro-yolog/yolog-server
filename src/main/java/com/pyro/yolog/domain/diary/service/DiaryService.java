@@ -1,7 +1,7 @@
 package com.pyro.yolog.domain.diary.service;
 
 import com.pyro.yolog.domain.auth.service.AuthService;
-import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.UpdateDiaryContentRequest;
 import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
@@ -57,7 +57,7 @@ public class DiaryService {
     }
 
     @Transactional
-    public void updateDiaryTitleAndContent(Long id, PutDiaryContentRequest request) {
+    public void updateDiaryTitleAndContent(Long id, UpdateDiaryContentRequest request) {
         final Diary diary = diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new);
         checkDiaryOwner(diary);
         diary.updateTitleAndContent(request);

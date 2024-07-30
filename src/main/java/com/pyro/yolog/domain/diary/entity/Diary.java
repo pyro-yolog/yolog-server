@@ -1,6 +1,6 @@
 package com.pyro.yolog.domain.diary.entity;
 
-import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.UpdateDiaryContentRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,6 +20,7 @@ public class Diary {
 
     private String title;
 
+    // ㄷㅐ용량 string 으로 변경하는거 알아보기
     private String content;
 
     @Enumerated(EnumType.STRING)
@@ -43,7 +44,7 @@ public class Diary {
         this.travelDate = travelDate;
     }
 
-    public void updateTitleAndContent(PutDiaryContentRequest request) {
+    public void updateTitleAndContent(UpdateDiaryContentRequest request) {
         this.content = request.getContent();
         this.title = request.getTitle();
     }

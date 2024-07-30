@@ -1,10 +1,9 @@
 package com.pyro.yolog.domain.diary.api;
 
-import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.UpdateDiaryContentRequest;
 import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
 import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
 import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
-import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -98,7 +97,7 @@ public interface DiaryApi {
             @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
             Long id,
 
-            @RequestBody(required = true) PutDiaryContentRequest request
+            @RequestBody(required = true) UpdateDiaryContentRequest request
     );
 
     @Operation(
