@@ -20,7 +20,7 @@ public class Diary {
 
     private String title;
 
-    // ㄷㅐ용량 string 으로 변경하는거 알아보기
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Enumerated(EnumType.STRING)

@@ -24,6 +24,7 @@ public class Trip extends BaseTimeEntity {
     private String name;
     private String destination;
 
+    @Column(columnDefinition = "TEXT")
     private String coverImageUrl;
 
     @Enumerated(EnumType.STRING)
