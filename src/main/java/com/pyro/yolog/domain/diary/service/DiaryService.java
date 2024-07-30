@@ -1,10 +1,7 @@
 package com.pyro.yolog.domain.diary.service;
 
 import com.pyro.yolog.domain.auth.service.AuthService;
-import com.pyro.yolog.domain.diary.dto.request.UpdateDiaryContentRequest;
-import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
-import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
-import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
+import com.pyro.yolog.domain.diary.dto.request.*;
 import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import com.pyro.yolog.domain.diary.entity.Diary;
@@ -36,11 +33,16 @@ public class DiaryService {
     private final DiaryMapper diaryMapper;
 
     public DetailDiaryResponse getDiary(Long id) {
-        Diary diary = diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new);
-        checkDiaryOwner(diary);
+        final Diary diary = getDiaryById(id);
         return new DetailDiaryResponse(diary);
     }
 
+    private Diary getDiaryById(Long id) {
+        final Diary diary = diaryRepository.findById(id)
+                .orElseThrow(DiaryNotFoundException::new);
+        checkDiaryOwner(diary);
+        return diary;
+    }
 
     public List<PreviewDiaryResponse> getDiaries(Long tripId, LocalDate dayName) {
         checkTripOwner(tripRepository.findById(tripId)
@@ -52,34 +54,33 @@ public class DiaryService {
 
     @Transactional
     public void createDiary(final Long tripId, final CreateDiaryRequest request) {
-        Trip trip = tripRepository.findById(tripId).orElseThrow(TripNotFoundException::new);
+        final Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(TripNotFoundException::new);
         diaryRepository.save(diaryMapper.toEntity(request, trip));
     }
 
     @Transactional
-    public void updateDiaryTitleAndContent(Long id, UpdateDiaryContentRequest request) {
-        final Diary diary = diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new);
-        checkDiaryOwner(diary);
-        diary.updateTitleAndContent(request);
-    }
-
-    @Transactional
     public void deleteDiary(Long id) {
-        checkDiaryOwner(diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new));
+        checkDiaryOwner(diaryRepository.findById(id)
+                .orElseThrow(DiaryNotFoundException::new));
         diaryRepository.deleteById(id);
     }
 
     @Transactional
+    public void updateDiaryTitleAndContent(Long id, UpdateDiaryContentRequest request) {
+        final Diary diary = getDiaryById(id);
+        diary.updateTitleAndContent(request);
+    }
+
+    @Transactional
     public void updateWeather(Long id, WeatherRequest request) {
-        Diary diary = diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new);
-        checkDiaryOwner(diary);
+        final Diary diary = getDiaryById(id);
         diary.updateWeather(request.getWeather());
     }
 
     @Transactional
     public void updateMood(Long id, MoodRequest request) {
-        Diary diary = diaryRepository.findById(id).orElseThrow(DiaryNotFoundException::new);
-        checkTripOwner(diary.getTrip());
+        final Diary diary = getDiaryById(id);
         diary.updateMood(request.getMood());
     }
 
@@ -88,7 +89,8 @@ public class DiaryService {
     public void deleteOutOfDuration(Trip trip) {
         checkTripOwner(trip);
         diaryRepository.findById(trip.getId()).ifPresent(diary -> {
-            if (diary.getTravelDate().isBefore(trip.getStartDate()) || diary.getTravelDate().isAfter(trip.getFinishDate())) {
+            if (diary.getTravelDate().isBefore(trip.getStartDate())
+                    || diary.getTravelDate().isAfter(trip.getFinishDate())) {
                 diaryRepository.deleteById(diary.getId());
             }
         });
@@ -103,4 +105,5 @@ public class DiaryService {
             throw new OwnerNotEqualException();
         }
     }
+
 }
