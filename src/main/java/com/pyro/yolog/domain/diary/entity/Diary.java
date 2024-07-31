@@ -44,9 +44,12 @@ public class Diary {
         this.travelDate = travelDate;
     }
 
-    public void updateTitleAndContent(UpdateDiaryContentRequest request) {
-        this.content = request.getContent();
-        this.title = request.getTitle();
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
     }
 
     public void updateWeather(Weather weather) {
