@@ -19,14 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DiaryService {
-    private static final String DAY = "Day";
-
     private final AuthService authService;
     private final DiaryRepository diaryRepository;
     private final TripRepository tripRepository;
@@ -67,21 +66,22 @@ public class DiaryService {
     }
 
     @Transactional
-    public void updateDiaryTitleAndContent(Long id, UpdateDiaryContentRequest request) {
-        final Diary diary = getDiaryById(id);
-        diary.updateTitleAndContent(request);
+    public void updateDiary(Long id, UpdateDiaryRequest request) {
+        Diary diary = getDiaryById(id);
+        updateDiaryDetails(diary, request);
     }
 
-    @Transactional
-    public void updateWeather(Long id, WeatherRequest request) {
-        final Diary diary = getDiaryById(id);
-        diary.updateWeather(request.getWeather());
+    private void updateDiaryDetails(Diary diary, UpdateDiaryRequest request) {
+        updateFieldIfPresent(request.getTitle(), diary::updateTitle);
+        updateFieldIfPresent(request.getContent(), diary::updateContent);
+        updateFieldIfPresent(request.getMood(), diary::updateMood);
+        updateFieldIfPresent(request.getWeather(), diary::updateWeather);
     }
 
-    @Transactional
-    public void updateMood(Long id, MoodRequest request) {
-        final Diary diary = getDiaryById(id);
-        diary.updateMood(request.getMood());
+    private <T> void updateFieldIfPresent(T value, Consumer<T> updateMethod) {
+        if (value != null) {
+            updateMethod.accept(value);
+        }
     }
 
 
@@ -105,5 +105,4 @@ public class DiaryService {
             throw new OwnerNotEqualException();
         }
     }
-
 }
