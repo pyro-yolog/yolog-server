@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Builder
 public class DetailDiaryResponse {
     private Long id;
-    private String dayName;
     private String title;
     private String content;
     private Mood mood;
