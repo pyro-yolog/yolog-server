@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findAllByTripIdAndTravelDate(Long tripId, LocalDate date);
 
-    List<Diary> findByTripId(Long tripId);
+    List<Diary> findAllByTripId(Long tripId);
 }
