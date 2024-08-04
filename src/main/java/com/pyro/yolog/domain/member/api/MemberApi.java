@@ -1,7 +1,6 @@
 package com.pyro.yolog.domain.member.api;
 
 import com.pyro.yolog.domain.member.dto.response.SocialTypeResponse;
-import com.pyro.yolog.domain.trip.dto.TripResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
