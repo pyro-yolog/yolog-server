@@ -1,10 +1,6 @@
 package com.pyro.yolog.domain.diary.api;
 
-import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
-import com.pyro.yolog.domain.diary.dto.request.CreateDiaryRequest;
-import com.pyro.yolog.domain.diary.dto.request.MoodRequest;
-import com.pyro.yolog.domain.diary.dto.request.WeatherRequest;
-import com.pyro.yolog.domain.diary.dto.response.DefaultDiaryResponse;
+import com.pyro.yolog.domain.diary.dto.request.*;
 import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -82,26 +78,6 @@ public interface DiaryApi {
     );
 
     @Operation(
-            summary = "일기 수정",
-            description = "일기를 수정합니다.",
-            security = {@SecurityRequirement(name = "access_token")}
-    )
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "204",
-                            description = "No Content"
-                    )
-            }
-    )
-    void updateDiaryTitleAndContent(
-            @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
-            Long id,
-
-            @RequestBody(required = true) PutDiaryContentRequest request
-    );
-
-    @Operation(
             summary = "일기 삭제",
             description = "일기를 삭제합니다.",
             security = {@SecurityRequirement(name = "access_token")}
@@ -119,8 +95,8 @@ public interface DiaryApi {
     );
 
     @Operation(
-            summary = "일기 날씨 수정",
-            description = "일기의 날씨 정보를 수정합니다.",
+            summary = "일기 수정",
+            description = "일기를 수정합니다.",
             security = {@SecurityRequirement(name = "access_token")}
     )
     @ApiResponses(
@@ -131,29 +107,9 @@ public interface DiaryApi {
                     )
             }
     )
-    void updateWeather(
-            @Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
-            Long id,
+    void updateDiary(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
+           Long id,
 
-            @RequestBody(required = true) WeatherRequest request
-    );
-
-    @Operation(
-            summary = "일기 기분 수정",
-            description = "일기의 기분 정보를 수정합니다.",
-            security = {@SecurityRequirement(name = "access_token")}
-    )
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "204",
-                            description = "No Content"
-                    )
-            }
-    )
-    void updateMood(@Parameter(in = ParameterIn.PATH, description = "일기 ID", required = true)
-                       Long id,
-
-                       @RequestBody(required = true) MoodRequest request
+           @RequestBody(required = true) UpdateDiaryRequest request
     );
 }

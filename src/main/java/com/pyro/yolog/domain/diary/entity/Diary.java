@@ -1,6 +1,6 @@
 package com.pyro.yolog.domain.diary.entity;
 
-import com.pyro.yolog.domain.diary.dto.request.PutDiaryContentRequest;
+import com.pyro.yolog.domain.diary.dto.request.UpdateDiaryContentRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,6 +20,7 @@ public class Diary {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Enumerated(EnumType.STRING)
@@ -43,9 +44,12 @@ public class Diary {
         this.travelDate = travelDate;
     }
 
-    public void updateTitleAndContent(PutDiaryContentRequest request) {
-        this.content = request.getContent();
-        this.title = request.getTitle();
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
     }
 
     public void updateWeather(Weather weather) {
