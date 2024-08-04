@@ -1,8 +1,9 @@
 package com.pyro.yolog.domain.trip.api;
 
-import com.pyro.yolog.domain.trip.dto.TripRequest;
-import com.pyro.yolog.domain.trip.dto.TripResponse;
-import com.pyro.yolog.domain.trip.entity.Trip;
+import com.pyro.yolog.domain.trip.dto.request.TripPeriodRequest;
+import com.pyro.yolog.domain.trip.dto.request.TripRequest;
+import com.pyro.yolog.domain.trip.dto.response.DiaryOutOfDurationResponse;
+import com.pyro.yolog.domain.trip.dto.response.TripResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -29,6 +30,23 @@ public interface TripApi {
             )
     })
     void saveTrip(@RequestBody TripRequest request);
+
+    @Operation(
+            summary = "일기장 기한을 넘어간 일기가 존재하는지 여부 확인",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK"
+            )
+    })
+    DiaryOutOfDurationResponse checkDiaryOutOfDuration(
+            @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
+            Long id,
+
+            @RequestBody TripPeriodRequest request
+    );
 
     @Operation(
             summary = "일기장 수정",

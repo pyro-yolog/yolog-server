@@ -1,7 +1,7 @@
 package com.pyro.yolog.domain.trip.mapper;
 
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.trip.dto.TripRequest;
+import com.pyro.yolog.domain.trip.dto.request.TripRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
