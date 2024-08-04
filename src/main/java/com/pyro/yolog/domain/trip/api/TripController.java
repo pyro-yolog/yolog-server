@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,15 +29,19 @@ public class TripController implements TripApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     @Override
-    public void updateTrip(@PathVariable Long id, @RequestBody @Valid final TripRequest request) {
+    public void updateTrip(
+            @PathVariable Long id, @RequestBody @Valid final TripRequest request) {
         tripService.updateTrip(id, request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/out-of-duration/{id}")
     @Override
-    public DiaryOutOfDurationResponse checkDiaryOutOfDuration(@PathVariable Long id, @RequestBody @Valid final TripPeriodRequest request) {
-        return tripService.checkDiaryOutOfDuration(id, request);
+    public DiaryOutOfDurationResponse checkDiaryOutOfDuration(
+            @PathVariable Long id,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate finishDate) {
+        return tripService.checkDiaryOutOfDuration(id, startDate, finishDate);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

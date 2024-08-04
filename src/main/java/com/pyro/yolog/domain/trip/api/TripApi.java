@@ -12,7 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Trip")
@@ -44,9 +46,9 @@ public interface TripApi {
     DiaryOutOfDurationResponse checkDiaryOutOfDuration(
             @Parameter(in = ParameterIn.PATH, description = "일기장 ID", required = true)
             Long id,
-
-            @RequestBody TripPeriodRequest request
-    );
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate finishDate
+            );
 
     @Operation(
             summary = "일기장 수정",

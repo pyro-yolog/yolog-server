@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,10 @@ public class TripService {
     }
 
 
-    public DiaryOutOfDurationResponse checkDiaryOutOfDuration(Long id, TripPeriodRequest request) {
+    public DiaryOutOfDurationResponse checkDiaryOutOfDuration(Long id, LocalDate startDate, LocalDate finishDate) {
         final Trip trip = tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
         return DiaryOutOfDurationResponse.builder()
-                .isOutOfDuration(diaryService.checkDiaryOutOfDuration(trip, request))
+                .isOutOfDuration(diaryService.checkDiaryOutOfDuration(trip, startDate, finishDate))
                 .build();
     }
 
@@ -76,5 +77,4 @@ public class TripService {
             throw new OwnerNotEqualException();
         }
     }
-
 }

@@ -86,11 +86,11 @@ public class DiaryService {
     }
 
     @Transactional
-    public boolean checkDiaryOutOfDuration(Trip trip, TripPeriodRequest request) {
+    public boolean checkDiaryOutOfDuration(Trip trip, LocalDate startDate, LocalDate finishDate) {
         List<Diary> diaries = diaryRepository.findAllByTripId(trip.getId());
         for (Diary diary : diaries) {
-            if (diary.getTravelDate().isBefore(request.getStartDate())
-                    || diary.getTravelDate().isAfter(request.getFinishDate())) {
+            if (diary.getTravelDate().isBefore(startDate)
+                    || diary.getTravelDate().isAfter(finishDate)) {
                 return true;
             }
         }
