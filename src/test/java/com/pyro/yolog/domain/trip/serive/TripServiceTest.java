@@ -1,7 +1,7 @@
 package com.pyro.yolog.domain.trip.serive;
 
 import com.pyro.yolog.domain.global.LoginTest;
-import com.pyro.yolog.domain.trip.dto.TripRequest;
+import com.pyro.yolog.domain.trip.dto.request.TripRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
 import com.pyro.yolog.domain.trip.service.TripService;
