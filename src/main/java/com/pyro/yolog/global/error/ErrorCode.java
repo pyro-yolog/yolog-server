@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부 서버에 오류가 발생했습니다."),
 
+    // AUTH
+    EMAIL_NOT_FOUND_ERROR(HttpStatus.FORBIDDEN, "이메일 추출에 실패했습니다."),
+
     // MEMBER
     MEMBER_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "회원 정보를 찾지 못했습니다." ),
     OWNER_NOT_EQUAL_ERROR(HttpStatus.BAD_REQUEST, "작성자만 접근 가능합니다."),

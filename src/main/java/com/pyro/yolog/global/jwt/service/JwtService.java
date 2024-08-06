@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
 import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
+import com.pyro.yolog.global.jwt.exception.NotFoundTokenException;
+import com.pyro.yolog.global.jwt.exception.NotFoundEmailException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -62,21 +64,16 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
-    public void sendAccessToken(HttpServletResponse response, String accessToken) {
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setHeader(accessHeader, accessToken);
-    }
-
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(accessHeader, accessToken);
         response.setHeader(refreshHeader, refreshToken);
     }
 
-    public Optional<String> extractAccessToken(HttpServletRequest request) {
+    public String extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(accessToken -> accessToken.startsWith(BEARER))
-                .map(accessToken -> accessToken.replace(BEARER, ""));
+                .map(token -> token.replace(BEARER, ""))
+                .orElseThrow(NotFoundTokenException::new);
     }
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
@@ -85,25 +82,24 @@ public class JwtService {
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
-    public Optional<String> extractEmail(String accessToken) {
-        try {
-            return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
-                    .build()
-                    .verify(accessToken)
-                    .getClaim(EMAIL_CLAIM)
-                    .asString());
-        } catch (Exception e) {
-            log.error("액세스 토큰이 유효하지 않습니다.");
-            return Optional.empty();
-        }
+    public String extractEmail(HttpServletRequest request) {
+        String accessToken = this.extractAccessToken(request);
+        return extractEmailFromAccessToken(accessToken);
     }
 
+    public String extractEmailFromAccessToken(String accessToken) {
+        return Optional.of(
+                        JWT.require(Algorithm.HMAC512(secretKey))
+                                .build()
+                                .verify(accessToken)
+                                .getClaim(EMAIL_CLAIM).asString())
+                .orElseThrow(NotFoundEmailException::new);
+    }
 
     @Transactional
     public void updateRefreshToken(String email, String refreshToken) {
         refreshTokenService.updateToken(email, refreshToken);
     }
-
 
     public boolean isTokenValid(String token) {
         try {
