@@ -9,6 +9,7 @@ import com.pyro.yolog.domain.diary.exception.DiaryNotFoundException;
 import com.pyro.yolog.domain.diary.mapper.DiaryMapper;
 import com.pyro.yolog.domain.diary.repository.DiaryRepository;
 import com.pyro.yolog.domain.member.exception.OwnerNotEqualException;
+import com.pyro.yolog.domain.trip.dto.request.TripPeriodRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.exception.TripNotFoundException;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
@@ -84,11 +85,22 @@ public class DiaryService {
         }
     }
 
+    @Transactional
+    public boolean checkDiaryOutOfDuration(Trip trip, LocalDate startDate, LocalDate finishDate) {
+        List<Diary> diaries = diaryRepository.findAllByTripId(trip.getId());
+        for (Diary diary : diaries) {
+            if (diary.getTravelDate().isBefore(startDate)
+                    || diary.getTravelDate().isAfter(finishDate)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Transactional
     public void deleteOutOfDuration(Trip trip) {
         checkTripOwner(trip);
-        diaryRepository.findById(trip.getId()).ifPresent(diary -> {
+        diaryRepository.findAllByTripId(trip.getId()).forEach(diary -> {
             if (diary.getTravelDate().isBefore(trip.getStartDate())
                     || diary.getTravelDate().isAfter(trip.getFinishDate())) {
                 diaryRepository.deleteById(diary.getId());

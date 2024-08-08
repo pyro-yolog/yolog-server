@@ -2,7 +2,6 @@ package com.pyro.yolog.domain.diary.dto.request;
 
 import com.pyro.yolog.domain.diary.entity.Mood;
 import com.pyro.yolog.domain.diary.entity.Weather;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

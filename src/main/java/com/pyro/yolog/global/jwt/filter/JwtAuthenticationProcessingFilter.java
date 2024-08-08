@@ -22,6 +22,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -68,12 +72,19 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                    FilterChain filterChain) throws ServletException, IOException {
-        jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> memberRepository.findByEmail(email)
-                                .ifPresent(this::saveAuthentication)));
-        filterChain.doFilter(request, response);
+        try {
+            jwtService.extractAccessToken(request);
+        } catch (Exception e) {
+            filterChain.doFilter(request, response);
+        }
+
+        try {
+            String email = jwtService.extractEmail(request);
+            memberRepository.findByEmail(email).ifPresent(this::saveAuthentication);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            response.setStatus(SC_UNAUTHORIZED);
+        }
     }
 
     public void saveAuthentication(Member member) {

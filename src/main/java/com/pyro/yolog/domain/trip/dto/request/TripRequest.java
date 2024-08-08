@@ -1,4 +1,4 @@
-package com.pyro.yolog.domain.trip.dto;
+package com.pyro.yolog.domain.trip.dto.request;
 
 import com.pyro.yolog.domain.trip.entity.CoverColor;
 import com.pyro.yolog.domain.trip.entity.SpineColor;

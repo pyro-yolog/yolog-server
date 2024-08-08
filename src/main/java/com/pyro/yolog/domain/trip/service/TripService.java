@@ -4,8 +4,10 @@ import com.pyro.yolog.domain.diary.service.DiaryService;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.auth.service.AuthService;
 import com.pyro.yolog.domain.member.exception.OwnerNotEqualException;
-import com.pyro.yolog.domain.trip.dto.TripRequest;
-import com.pyro.yolog.domain.trip.dto.TripResponse;
+import com.pyro.yolog.domain.trip.dto.request.TripPeriodRequest;
+import com.pyro.yolog.domain.trip.dto.request.TripRequest;
+import com.pyro.yolog.domain.trip.dto.response.TripResponse;
+import com.pyro.yolog.domain.trip.dto.response.DiaryOutOfDurationResponse;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.mapper.TripMapper;
 import com.pyro.yolog.domain.trip.repository.TripRepository;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,14 @@ public class TripService {
     public void saveTrip(final TripRequest request) {
         Member login = authService.getLoginUser();
         tripRepository.save(tripMapper.toEntity(request, login));
+    }
+
+
+    public DiaryOutOfDurationResponse checkDiaryOutOfDuration(Long id, LocalDate startDate, LocalDate finishDate) {
+        final Trip trip = tripRepository.findById(id).orElseThrow(TripNotFoundException::new);
+        return DiaryOutOfDurationResponse.builder()
+                .isOutOfDuration(diaryService.checkDiaryOutOfDuration(trip, startDate, finishDate))
+                .build();
     }
 
     @Transactional

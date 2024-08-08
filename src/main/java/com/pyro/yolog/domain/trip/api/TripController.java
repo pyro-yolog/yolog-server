@@ -1,15 +1,16 @@
 package com.pyro.yolog.domain.trip.api;
 
-import com.pyro.yolog.domain.trip.dto.TripRequest;
-import com.pyro.yolog.domain.trip.dto.TripResponse;
-import com.pyro.yolog.domain.trip.entity.Trip;
+import com.pyro.yolog.domain.trip.dto.request.TripRequest;
+import com.pyro.yolog.domain.trip.dto.response.TripResponse;
+import com.pyro.yolog.domain.trip.dto.request.TripPeriodRequest;
+import com.pyro.yolog.domain.trip.dto.response.DiaryOutOfDurationResponse;
 import com.pyro.yolog.domain.trip.service.TripService;
-import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,19 @@ public class TripController implements TripApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     @Override
-    public void updateTrip(@PathVariable Long id, @RequestBody @Valid final TripRequest request) {
+    public void updateTrip(
+            @PathVariable Long id, @RequestBody @Valid final TripRequest request) {
         tripService.updateTrip(id, request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/out-of-duration/{id}")
+    @Override
+    public DiaryOutOfDurationResponse checkDiaryOutOfDuration(
+            @PathVariable Long id,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate finishDate) {
+        return tripService.checkDiaryOutOfDuration(id, startDate, finishDate);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
