@@ -28,7 +28,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         if(oAuth2User.getRole() == Role.GUEST) {
             String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
             response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-            response.sendRedirect("/social-login?exist=false&Authorization=" + accessToken);
+            response.sendRedirect("https://yolog.store/api/social-login?exist=false&Authorization=" + accessToken);
 
             jwtService.sendAccessAndRefreshToken(response, accessToken, null);
         } else {
@@ -47,7 +47,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
-        return "/social-login?exist=true&Authorization=" + accessToken + "&Authorization-Refresh=" + refreshToken;
+        return "https://yolog.store/social-login?exist=true&Authorization=" + accessToken + "&Authorization-Refresh=" + refreshToken;
     }
 }
 
