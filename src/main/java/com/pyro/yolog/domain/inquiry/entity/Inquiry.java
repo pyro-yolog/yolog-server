@@ -7,7 +7,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+
+import java.util.List;
 
 @Getter
 @Entity
@@ -26,6 +27,9 @@ public class Inquiry extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "inquiry_image", cascade = CascadeType.ALL)
+    private List<Inquiry> inquiries;
 
     @Builder
     public Inquiry(String title, String content, Member member) {
