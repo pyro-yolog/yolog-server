@@ -38,5 +38,5 @@ public interface AuthApi {
                     )
             }
     )
-    void withdrawMember();
+    String withdrawMember();
 }
