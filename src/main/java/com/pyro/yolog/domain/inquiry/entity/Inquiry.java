@@ -28,8 +28,8 @@ public class Inquiry extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "inquiry_image", cascade = CascadeType.ALL)
-    private List<Inquiry> inquiries;
+    @OneToMany(mappedBy = "inquiry", cascade = CascadeType.ALL)
+    private List<InquiryImage> inquiryImages;
 
     @Builder
     public Inquiry(String title, String content, Member member) {
