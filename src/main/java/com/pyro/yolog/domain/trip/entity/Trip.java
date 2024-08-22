@@ -1,5 +1,7 @@
 package com.pyro.yolog.domain.trip.entity;
 
+import com.pyro.yolog.domain.diary.entity.Diary;
+import com.pyro.yolog.domain.inquiry.entity.Inquiry;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.trip.dto.request.TripRequest;
 import com.pyro.yolog.global.config.BaseTimeEntity;
@@ -11,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Entity
@@ -42,6 +45,9 @@ public class Trip extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<Diary> diaries;
 
     @Builder
     public Trip(String name, String destination, String coverImageUrl, CoverColor coverColor, SpineColor spineColor, LocalDate startDate, LocalDate finishDate, Member member) {

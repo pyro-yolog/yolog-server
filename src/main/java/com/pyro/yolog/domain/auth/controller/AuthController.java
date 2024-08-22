@@ -22,7 +22,8 @@ public class AuthController implements AuthApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/withdrawal")
     @Override
-    public void withdrawMember() {
+    public String withdrawMember() {
         authService.withdrawMember();
+        return "redirect:https://yolog.store";
     }
 }
