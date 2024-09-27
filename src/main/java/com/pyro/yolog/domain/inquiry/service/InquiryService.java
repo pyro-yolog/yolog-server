@@ -11,7 +11,7 @@ import com.pyro.yolog.domain.inquiry.exception.InquiryNotFoundException;
 import com.pyro.yolog.domain.inquiry.mapper.InquiryMapper;
 import com.pyro.yolog.domain.inquiry.repository.InquiryRepository;
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.global.oauth2.service.AuthService;
 import com.pyro.yolog.domain.member.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

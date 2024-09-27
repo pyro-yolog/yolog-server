@@ -1,7 +1,6 @@
 package com.pyro.yolog.domain.trip.entity;
 
 import com.pyro.yolog.domain.diary.entity.Diary;
-import com.pyro.yolog.domain.inquiry.entity.Inquiry;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.trip.dto.request.TripRequest;
 import com.pyro.yolog.global.config.BaseTimeEntity;

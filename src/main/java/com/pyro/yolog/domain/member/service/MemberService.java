@@ -1,6 +1,6 @@
 package com.pyro.yolog.domain.member.service;
 
-import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.global.oauth2.service.AuthService;
 import com.pyro.yolog.domain.member.dto.response.SocialTypeResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
