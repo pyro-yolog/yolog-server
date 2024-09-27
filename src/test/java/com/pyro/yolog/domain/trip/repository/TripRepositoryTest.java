@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("TripRepository의 ")
 @RepositoryTest
-public class TripRepositoryTest {
+class TripRepositoryTest {
     @Autowired
     private TripRepository tripRepository;
     @Autowired

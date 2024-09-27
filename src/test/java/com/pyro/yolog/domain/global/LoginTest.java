@@ -1,7 +1,7 @@
 package com.pyro.yolog.domain.global;
 
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.global.oauth2.service.AuthService;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
 import com.pyro.yolog.support.database.DatabaseTest;
 import org.junit.jupiter.api.BeforeEach;

@@ -44,7 +44,7 @@ public abstract class BaseControllerTest {
     @BeforeEach
     public void loginSetup(WebApplicationContext ctx) {
         mockMvc = MockMvcBuilders.webAppContextSetup(ctx)
-                .addFilter(new JwtAuthenticationProcessingFilter(jwtService, refreshTokenService, memberRepository))
+                .addFilter(new JwtAuthenticationProcessingFilter(jwtService, memberRepository, refreshTokenService))
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build();
         loginMember = MEMBER();
