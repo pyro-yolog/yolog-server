@@ -22,8 +22,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -33,8 +31,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private static final String NO_CHECK_URL = "/login";
 
     private final JwtService jwtService;
-    private final RefreshTokenService refreshTokenService;
     private final MemberRepository memberRepository;
+    private final RefreshTokenService refreshTokenService;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
@@ -57,29 +55,23 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     }
 
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        RefreshToken refresh = refreshTokenService.findByToken(refreshToken);
-        String reIssuedRefreshToken = reIssueRefreshToken(refresh.getEmail());
-        jwtService.sendAccessAndRefreshToken(response,
-                jwtService.createAccessToken(refresh.getEmail()), reIssuedRefreshToken);
-    }
-
-    private String reIssueRefreshToken(String email) {
-        String reIssuedRefreshToken = jwtService.createRefreshToken();
-
-        refreshTokenService.updateToken(email, reIssuedRefreshToken);
-        return reIssuedRefreshToken;
+        if (jwtService.isTokenValid(refreshToken)) {
+            RefreshToken refresh = refreshTokenService.findByToken(refreshToken);
+            jwtService.sendAccessAndRefreshToken(response, refresh.getEmail());
+        }
     }
 
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                    FilterChain filterChain) throws ServletException, IOException {
+        String email = new String();
         try {
-            jwtService.extractAccessToken(request);
+            String accessToken = jwtService.extractAccessToken(request).toString();
+            email = String.valueOf(jwtService.extractEmail(accessToken));
         } catch (Exception e) {
             filterChain.doFilter(request, response);
         }
 
         try {
-            String email = jwtService.extractEmail(request);
             memberRepository.findByEmail(email).ifPresent(this::saveAuthentication);
             filterChain.doFilter(request, response);
         } catch (Exception e) {
