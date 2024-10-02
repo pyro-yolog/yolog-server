@@ -1,6 +1,6 @@
 package com.pyro.yolog.domain.diary.service;
 
-import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.global.oauth2.service.AuthService;
 import com.pyro.yolog.domain.diary.dto.request.*;
 import com.pyro.yolog.domain.diary.dto.response.DetailDiaryResponse;
 import com.pyro.yolog.domain.diary.dto.response.PreviewDiaryResponse;
@@ -9,7 +9,6 @@ import com.pyro.yolog.domain.diary.exception.DiaryNotFoundException;
 import com.pyro.yolog.domain.diary.mapper.DiaryMapper;
 import com.pyro.yolog.domain.diary.repository.DiaryRepository;
 import com.pyro.yolog.domain.member.exception.OwnerNotEqualException;
-import com.pyro.yolog.domain.trip.dto.request.TripPeriodRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import com.pyro.yolog.domain.trip.exception.TripNotFoundException;
 import com.pyro.yolog.domain.trip.repository.TripRepository;

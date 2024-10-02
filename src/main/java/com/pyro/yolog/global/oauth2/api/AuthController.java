@@ -1,8 +1,8 @@
-package com.pyro.yolog.domain.auth.controller;
+package com.pyro.yolog.global.oauth2.api;
 
-import com.pyro.yolog.domain.auth.service.AuthService;
-import com.pyro.yolog.domain.auth.service.SignUpService;
-import com.pyro.yolog.domain.member.dto.request.SignUpRequest;
+import com.pyro.yolog.global.oauth2.dto.LoginRequest;
+import com.pyro.yolog.global.oauth2.service.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
     private final AuthService authService;
-    private final SignUpService signUpService;
 
+    @Override
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/social-login")
-    public boolean signUp(@RequestBody SignUpRequest request) {
-        return signUpService.signUp(request);
+    public void login(@RequestBody LoginRequest request, HttpServletResponse response) {
+        authService.authenticateOrRegisterUser(request, response);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

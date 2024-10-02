@@ -1,6 +1,5 @@
 package com.pyro.yolog.domain.diary.entity;
 
-import com.pyro.yolog.domain.diary.dto.request.UpdateDiaryContentRequest;
 import com.pyro.yolog.domain.trip.entity.Trip;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

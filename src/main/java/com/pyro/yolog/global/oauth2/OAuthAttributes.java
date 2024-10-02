@@ -9,7 +9,6 @@ import com.pyro.yolog.global.oauth2.userInfo.KakaoOAuth2UserInfo;
 import com.pyro.yolog.global.oauth2.userInfo.OAuth2UserInfo;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 

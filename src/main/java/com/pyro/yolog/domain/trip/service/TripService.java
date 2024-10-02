@@ -2,9 +2,8 @@ package com.pyro.yolog.domain.trip.service;
 
 import com.pyro.yolog.domain.diary.service.DiaryService;
 import com.pyro.yolog.domain.member.entity.Member;
-import com.pyro.yolog.domain.auth.service.AuthService;
+import com.pyro.yolog.global.oauth2.service.AuthService;
 import com.pyro.yolog.domain.member.exception.OwnerNotEqualException;
-import com.pyro.yolog.domain.trip.dto.request.TripPeriodRequest;
 import com.pyro.yolog.domain.trip.dto.request.TripRequest;
 import com.pyro.yolog.domain.trip.dto.response.TripResponse;
 import com.pyro.yolog.domain.trip.dto.response.DiaryOutOfDurationResponse;

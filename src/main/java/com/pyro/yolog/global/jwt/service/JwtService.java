@@ -2,7 +2,10 @@ package com.pyro.yolog.global.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
+import com.pyro.yolog.global.jwt.refresh.dto.TokenResponse;
 import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
 import com.pyro.yolog.global.jwt.exception.NotFoundTokenException;
 import com.pyro.yolog.global.jwt.exception.NotFoundEmailException;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -23,22 +27,6 @@ import java.util.Optional;
 @Getter
 @Slf4j
 public class JwtService {
-
-    @Value("${jwt.secret-key}")
-    private String secretKey;
-
-    @Value("${jwt.access.expiration}")
-    private Long accessTokenExpirationPeriod;
-
-    @Value("${jwt.refresh.expiration}")
-    private Long refreshTokenExpirationPeriod;
-
-    @Value("${jwt.access.header}")
-    private String accessHeader;
-
-    @Value("${jwt.refresh.header}")
-    private String refreshHeader;
-
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String EMAIL_CLAIM = "email";
@@ -46,6 +34,37 @@ public class JwtService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenService refreshTokenService;
+    private final ObjectMapper objectMapper;
+
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+    @Value("${jwt.access.expiration}")
+    private Long accessTokenExpirationPeriod;
+    @Value("${jwt.refresh.expiration}")
+    private Long refreshTokenExpirationPeriod;
+    @Value("${jwt.access.header}")
+    private String accessHeader;
+    @Value("${jwt.refresh.header}")
+    private String refreshHeader;
+
+    public void sendAccessAndRefreshToken(HttpServletResponse response, String email) {
+        String accessToken = createAccessToken(email);
+        String refreshToken = createRefreshToken();
+
+        try {
+            String token = objectMapper.writeValueAsString(TokenResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build());
+            response.getWriter().write(token);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        setTokenHeader(response, accessHeader, accessToken);
+        setTokenHeader(response, refreshHeader, refreshToken);
+        refreshTokenService.updateToken(email, refreshToken);
+    }
 
     public String createAccessToken(String email) {
         Date now = new Date();
@@ -56,24 +75,12 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
-    public String createRefreshToken() {
+    private String createRefreshToken() {
         Date now = new Date();
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
                 .sign(Algorithm.HMAC512(secretKey));
-    }
-
-    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setHeader(accessHeader, accessToken);
-        response.setHeader(refreshHeader, refreshToken);
-    }
-
-    public String extractAccessToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(accessHeader))
-                .map(token -> token.replace(BEARER, ""))
-                .orElseThrow(NotFoundTokenException::new);
     }
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
@@ -82,23 +89,29 @@ public class JwtService {
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
-    public String extractEmail(HttpServletRequest request) {
-        String accessToken = this.extractAccessToken(request);
-        return extractEmailFromAccessToken(accessToken);
+    public Optional<String> extractAccessToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader(accessHeader))
+                .filter(refreshToken -> refreshToken.startsWith(BEARER))
+                .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
-    public String extractEmailFromAccessToken(String accessToken) {
-        return Optional.of(
-                        JWT.require(Algorithm.HMAC512(secretKey))
-                                .build()
-                                .verify(accessToken)
-                                .getClaim(EMAIL_CLAIM).asString())
-                .orElseThrow(NotFoundEmailException::new);
+    public Optional<String> extractEmail(String accessToken) throws JWTVerificationException {
+        try {
+            return Optional.ofNullable(
+                    JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getClaim(EMAIL_CLAIM).asString());
+        } catch (Exception e) {
+            log.error("액세스 토큰이 유효하지 않습니다.");
+            return Optional.empty();
+        }
     }
 
-    @Transactional
-    public void updateRefreshToken(String email, String refreshToken) {
-        refreshTokenService.updateToken(email, refreshToken);
+    public String getEmail(HttpServletRequest request) {
+        String accessToken = this.extractAccessToken(request).orElseThrow(NotFoundTokenException::new);
+        return this.extractEmail(accessToken).orElseThrow(NotFoundEmailException::new);
+    }
+
+    private void setTokenHeader(HttpServletResponse response, String headerName, String token) {
+        response.setHeader(headerName, BEARER + token);
     }
 
     public boolean isTokenValid(String token) {
@@ -110,10 +123,5 @@ public class JwtService {
             return false;
         }
     }
-
-    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-        response.setHeader(refreshHeader, BEARER + refreshToken);
-    }
 }
-
 

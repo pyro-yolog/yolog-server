@@ -1,12 +1,12 @@
-package com.pyro.yolog.domain.auth.controller;
+package com.pyro.yolog.global.oauth2.api;
 
-import com.pyro.yolog.domain.member.dto.request.SignUpRequest;
+import com.pyro.yolog.global.oauth2.dto.LoginRequest;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Tag(name = "Auth")
 public interface AuthApi {
@@ -22,7 +22,7 @@ public interface AuthApi {
                     description = "회원가입이 성공적으로 완료되었습니다."
             )
     })
-    boolean signUp(@RequestBody SignUpRequest dto);
+    void login(LoginRequest request, HttpServletResponse response);
 
 
     @Operation(
