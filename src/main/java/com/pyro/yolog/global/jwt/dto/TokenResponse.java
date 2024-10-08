@@ -1,4 +1,4 @@
-package com.pyro.yolog.global.jwt.refresh.dto;
+package com.pyro.yolog.global.jwt.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
