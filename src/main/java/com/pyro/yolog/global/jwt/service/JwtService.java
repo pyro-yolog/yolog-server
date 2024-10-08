@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
-import com.pyro.yolog.global.jwt.refresh.dto.TokenResponse;
+import com.pyro.yolog.global.jwt.dto.TokenResponse;
 import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
 import com.pyro.yolog.global.jwt.exception.NotFoundTokenException;
 import com.pyro.yolog.global.jwt.exception.NotFoundEmailException;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Date;
@@ -47,6 +46,25 @@ public class JwtService {
     @Value("${jwt.refresh.header}")
     private String refreshHeader;
 
+
+    public void sendAccessToken(HttpServletResponse response, String email) {
+        String accessToken = createAccessToken(email);
+
+        try {
+            String token = objectMapper.writeValueAsString(TokenResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken("")
+                    .build());
+            response.getWriter().write(token);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        setTokenHeader(response, accessHeader, accessToken);
+        setTokenHeader(response, refreshHeader, "");
+        refreshTokenService.updateToken(email, "");
+    }
+
     public void sendAccessAndRefreshToken(HttpServletResponse response, String email) {
         String accessToken = createAccessToken(email);
         String refreshToken = createRefreshToken();
@@ -75,7 +93,7 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
-    private String createRefreshToken() {
+    public String createRefreshToken() {
         Date now = new Date();
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
@@ -110,7 +128,7 @@ public class JwtService {
         return this.extractEmail(accessToken).orElseThrow(NotFoundEmailException::new);
     }
 
-    private void setTokenHeader(HttpServletResponse response, String headerName, String token) {
+    public void setTokenHeader(HttpServletResponse response, String headerName, String token) {
         response.setHeader(headerName, BEARER + token);
     }
 
