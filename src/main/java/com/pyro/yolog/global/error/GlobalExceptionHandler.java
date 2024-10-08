@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(errorCode.getStatus())
-                .body(new ErrorResponse(errorCode.getStatus(),
+                .body(new ErrorResponse(errorCode.getStatus().value(),
                         errorCode.getErrorMessage()));
     }
 
@@ -28,6 +28,6 @@ public class GlobalExceptionHandler {
         log.warn(e.getMessage());
         return ResponseEntity
                 .status(e.getStatusCode())
-                .body(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()));
+                .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
     }
 }

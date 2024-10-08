@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     // AUTH
     EMAIL_NOT_FOUND_ERROR(HttpStatus.FORBIDDEN, "이메일 추출에 실패했습니다."),
+    DUPLICATED_NICKNAME_ERROR(HttpStatus.BAD_REQUEST, "이미 존재하는 닉네임입니다."),
 
     // MEMBER
     MEMBER_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "회원 정보를 찾지 못했습니다." ),
@@ -33,9 +34,7 @@ public enum ErrorCode {
     DIARY_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당 일기를 찾지 못했습니다."),
     REQUEST_WEATHER_NAME_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 날씨를 입력해야 합니다."),
     REQUEST_MOOD_NAME_INVALID_ERROR(HttpStatus.BAD_REQUEST, "올바른 기분을 입력해야 합니다."),
-
     ;
-
     private final HttpStatus status;
     private final String errorMessage;
 }
