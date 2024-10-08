@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
     @Schema(description = "인증서버에서 받아온 access token을 입력")
     private String token;
-    @Schema(description = "인증서버타입, GOOGLE, KAKAO 가능")
+    @Schema(description = "인증서버타입, GOOGLE, KAKAO 가능", defaultValue = "KAKAO")
     private SocialType socialType;
 }
 
