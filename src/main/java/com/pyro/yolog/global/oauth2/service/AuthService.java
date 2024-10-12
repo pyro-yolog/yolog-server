@@ -1,13 +1,16 @@
 package com.pyro.yolog.global.oauth2.service;
 
+import com.pyro.yolog.domain.member.dto.request.SignUpRequest;
 import com.pyro.yolog.domain.member.entity.Member;
 import com.pyro.yolog.domain.member.entity.Role;
 import com.pyro.yolog.domain.member.entity.SocialType;
+import com.pyro.yolog.domain.member.entity.Status;
 import com.pyro.yolog.domain.member.exception.MemberNotFoundException;
 import com.pyro.yolog.domain.member.repository.MemberRepository;
+import com.pyro.yolog.global.jwt.refresh.service.RefreshTokenService;
 import com.pyro.yolog.global.oauth2.dto.LoginRequest;
 import com.pyro.yolog.global.jwt.service.JwtService;
-import com.pyro.yolog.global.oauth2.service.OAuth2ProviderService;
+import com.pyro.yolog.global.oauth2.exception.InvalidNicknameException;
 import com.pyro.yolog.global.oauth2.userInfo.OAuth2UserInfo;
 import com.pyro.yolog.global.query.QueryService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,8 +29,11 @@ import org.springframework.web.client.RestTemplate;
 public class AuthService {
     private final MemberRepository memberRepository;
     private final OAuth2ProviderService oAuth2ProviderService;
+    private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
 
+    @Value("${jwt.refresh.header}")
+    private String refreshHeader;
 
     @Value("${oauth.kakao.admin-key}")
     private String kakaoAdminKey;
@@ -42,8 +47,8 @@ public class AuthService {
 
     public Member getLoginUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return memberRepository.findByEmail(userDetails.getUsername()).orElseThrow(MemberNotFoundException::new);
+        String username = authentication.getName();
+        return memberRepository.findByEmail(username).orElseThrow(MemberNotFoundException::new);
     }
 
 
@@ -73,10 +78,10 @@ public class AuthService {
     }
 
     @Transactional
-    public void authenticateOrRegisterUser(LoginRequest loginRequest, HttpServletResponse response) {
+    public void authenticateOrRegisterGuest(LoginRequest loginRequest, HttpServletResponse response) {
         OAuth2UserInfo userInfo = oAuth2ProviderService.getUserInfo(loginRequest);
         Member member = findOrElseRegisterMember(userInfo, loginRequest.getSocialType());
-        jwtService.sendAccessAndRefreshToken(response, member.getEmail());
+        jwtService.sendAccessToken(response, member.getEmail());
     }
 
     private Member findOrElseRegisterMember(OAuth2UserInfo userInfo, SocialType socialType) {
@@ -91,9 +96,24 @@ public class AuthService {
                 .email(userInfo.getEmail())
                 .nickname(userInfo.getNickname())
                 .imageUrl(userInfo.getImageUrl())
-                .role(Role.USER)
+                .role(Role.GUEST)
+                .status(Status.ACTIVE)
                 .build();
 
         return memberRepository.save(member);
+    }
+
+    @Transactional
+    public void signUp(SignUpRequest request, HttpServletResponse response) {
+        if (memberRepository.existsByNickname(request.getNickname())) {
+            throw new InvalidNicknameException();
+        }
+
+        Member member = getLoginUser();
+        member.signUp(request);
+
+        String refreshToken = jwtService.createRefreshToken();
+        jwtService.setTokenHeader(response, refreshHeader, refreshToken);
+        refreshTokenService.updateToken(member.getEmail(), refreshToken);
     }
 }

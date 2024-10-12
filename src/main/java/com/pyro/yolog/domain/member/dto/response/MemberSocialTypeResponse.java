@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @Setter
-public class SocialTypeResponse {
+public class MemberSocialTypeResponse {
     private SocialType socialType;
 }

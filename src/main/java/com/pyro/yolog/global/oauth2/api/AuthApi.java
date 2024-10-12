@@ -1,5 +1,6 @@
 package com.pyro.yolog.global.oauth2.api;
 
+import com.pyro.yolog.domain.member.dto.request.SignUpRequest;
 import com.pyro.yolog.global.oauth2.dto.LoginRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +25,22 @@ public interface AuthApi {
     })
     void login(LoginRequest request, HttpServletResponse response);
 
+    @Operation(
+            summary = "닉네임 설정",
+            description = "사용자의 닉네임을 설정합니다.\n성공적으로 닉네임이 등록되면 Refresh Token을 헤더로 보냅니다.",
+            security = {@SecurityRequirement(name = "access_token")}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "닉네임이 성공적으로 등록되었습니다."
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "이미 존재하는 닉네임입니다."
+            )
+    })
+    void signUp(SignUpRequest request, HttpServletResponse response);
 
     @Operation(
             summary = "회원 탈퇴",
