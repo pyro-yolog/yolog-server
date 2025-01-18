@@ -33,7 +33,7 @@ class TripControllerTest extends BaseControllerTest {
     void setTrip() throws Exception {
         //given
         Trip trip = TripFixture.TRIP(loginMember);
-        TripRequest request = new TripRequest(trip.getName(), trip.getDestination(), trip.getCoverImageUrl(), trip.getStartDate(), trip.getFinishDate());
+        TripRequest request = new TripRequest(trip.getName(), trip.getDestination(), trip.getCoverImageUrl(), trip.getCoverColor(), trip.getSpineColor(), trip.getStartDate(), trip.getFinishDate());
 
         //when
         final ResultActions perform = mockMvc.perform(
@@ -49,7 +49,7 @@ class TripControllerTest extends BaseControllerTest {
     void saveTrip() throws Exception {
         //given
         Trip trip = TripFixture.TRIP(loginMember);
-        TripRequest request = new TripRequest(trip.getName(), trip.getDestination(), trip.getCoverImageUrl(), trip.getStartDate(), trip.getFinishDate());
+        TripRequest request = new TripRequest(trip.getName(), trip.getDestination(), trip.getCoverImageUrl(), trip.getCoverColor(), trip.getSpineColor(), trip.getStartDate(), trip.getFinishDate());
 
         //when
         final ResultActions perform = mockMvc.perform(
@@ -68,7 +68,7 @@ class TripControllerTest extends BaseControllerTest {
     void updateTrip() throws Exception {
         //given
         Trip trip = TripFixture.TRIP(loginMember);
-        TripRequest request = new TripRequest(trip.getName(), trip.getDestination(), trip.getCoverImageUrl(), trip.getStartDate(), trip.getFinishDate());
+        TripRequest request = new TripRequest(trip.getName(), trip.getDestination(), trip.getCoverImageUrl(), trip.getCoverColor(), trip.getSpineColor(), trip.getStartDate(), trip.getFinishDate());
 
         //when
         final ResultActions perform = mockMvc.perform(

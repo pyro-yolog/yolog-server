@@ -20,7 +20,7 @@ import static com.pyro.yolog.domain.member.entity.SocialType.KAKAO;
 public class OAuth2ProviderService {
     public OAuth2UserInfo getUserInfo(LoginRequest request) {
         return switch (request.getSocialType()) {
-            case GOOGLE -> getKakaoUserInfo(request);
+            case GOOGLE -> getGoogleUserInfo(request);
             case KAKAO -> getKakaoUserInfo(request);
         };
     }
